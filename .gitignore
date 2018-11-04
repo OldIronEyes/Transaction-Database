@@ -1,0 +1,7 @@
+#ENV stuff
+venv/
+server/BarConsumablePatron/__pycache__
+server/BarConsumablePatron/config.py
+
+
+
