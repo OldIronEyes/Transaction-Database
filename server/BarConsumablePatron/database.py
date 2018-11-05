@@ -8,7 +8,7 @@ engine = create_engine(config.database_uri)
 # select all bars
 def get_bars():
 	with engine.connect() as con:
-		rs = con.execute("SELECT Name, License, City, State, Opening, Closing FROM Bars;")
+		rs = con.execute("SELECT Name, License, City, State, CAST(Opening as CHAR) as Opening, CAST(Closing as CHAR) as Closing FROM Bars;")
 		
 		return [dict(row) for row in rs]
 
@@ -16,7 +16,7 @@ def get_bars():
 # select from Bars given a Bar's name	
 def find_bar(name):
 	with engine.connect() as con:
-		query = sql.text("SELECT Name, License, City, State, Opening, Closing FROM Bars WHERE Name = :name;")
+		query = sql.text("SELECT Name, License, City, State, CAST(Opening as CHAR) as Opening, CAST(Closing as CHAR) as Closing FROM Bars WHERE Name = :name;")
 		
 		rs = con.execute(query, name=name)
 		result = rs.first()
