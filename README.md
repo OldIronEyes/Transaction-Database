@@ -19,3 +19,8 @@
     - Beers
     - Foods
     - Sodas
+- Sells
+- Bills
+- Bought
+- Frequents
+- Likes
