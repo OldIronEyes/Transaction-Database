@@ -5,3 +5,31 @@
     <p class="lead">blah blah text</p>
   </div>
 </div>
+
+<div class="container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">License</th>
+              <th scope="col">Name</th>
+              <th scope="col">City</th>
+              <th scope="col">State</th>
+              <th scope="col">Opening</th>
+              <th scope="col">Closing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let bar of bars; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ bar.License }}</td>
+              <td>{{ bar.Name }}</td>
+              <td>{{ bar.City }}</td>
+              <td>{{ bar.State }}</td>
+              <td>{{ bar.Opening }}</td>
+              <td>{{ bar.Closing }}</td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+        
