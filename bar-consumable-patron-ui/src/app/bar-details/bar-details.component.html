@@ -9,9 +9,12 @@
                 </p>
         </div>
         <br><br>
+
+                
         <div class="container">
                 <h2 class="text-center">Food Menu</h2>
-                <p-table [value]= "barFoods">
+                <p-dropdown *ngIf="filterOptions" [options]="filterOptions" (onChange)="sortBy($event.value)"></p-dropdown>
+                <p-table [value]= "barFoods" sortmode="multiple" sortField="price">
                         <ng-template pTemplate= "header">
                                 <tr>
                                         <th>Name</th>
