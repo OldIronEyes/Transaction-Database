@@ -14,14 +14,14 @@ def get_bars():
 	return jsonify(database.get_bars())
 
 #find bar with given name
-@app.route("/api/bar/<name>", methods=["GET"])
-def find_bar(name):
+@app.route("/api/bar/<license>", methods=["GET"])
+def find_bar(license):
 	try:
 		if name is None:
-			raise ValueError("Please specify Bar Name.")
-		bar = database.find_bar(name)
+			raise ValueError("Please specify Bar.")
+		bar = database.find_bar(license)
 		if bar is None:
-			return make_response("No bar with that name was found.", 404)
+			return make_response("No matching bar was found.", 404)
 		return jsonify(bar)
 	except ValueError as err:
 		return make_response(str(err), 400)

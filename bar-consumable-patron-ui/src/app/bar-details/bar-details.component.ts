@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BarsService, Bar } from '../bars.service';
 
 @Component({
   selector: 'app-bar-details',
@@ -7,7 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BarDetailsComponent implements OnInit {
 
-  constructor() { }
+        barLicense: string;
+
+  constructor(private barService: BarsService, private route: ActivatedRoute) {
+          route.paramMap.subscribe((paramMap) => {
+                  this.barLicense = paramMap.get('bar');
+                  
+                  barService.getBar(this.barLicense)
+          });
+  }
 
   ngOnInit() {
   }

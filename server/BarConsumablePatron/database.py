@@ -14,11 +14,11 @@ def get_bars():
 
 
 # select from Bars given a Bar's name	
-def find_bar(name):
+def find_bar(license):
 	with engine.connect() as con:
-		query = sql.text("SELECT Name, License, City, State, CAST(Opening as CHAR) as Opening, CAST(Closing as CHAR) as Closing FROM Bars WHERE Name = :name;")
+		query = sql.text("SELECT Name, License, City, State, CAST(Opening as CHAR) as Opening, CAST(Closing as CHAR) as Closing FROM Bars WHERE License = :license;")
 		
-		rs = con.execute(query, name=name)
+		rs = con.execute(query, license=license)
 		result = rs.first()
 		if result is None:
 			return None
