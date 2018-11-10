@@ -7,7 +7,12 @@ import { BarDetailsComponent } from './bar-details/bar-details.component';
 
 const routes: Routes = [
         {
-                path : '',
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'bars'
+        },
+        {
+                path : 'bars',
                 pathMatch : 'full',
                 component: WelcomeComponent
         },
