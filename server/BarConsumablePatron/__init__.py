@@ -13,7 +13,7 @@ app = Flask(__name__)
 def get_bars():
 	return jsonify(database.get_bars())
 
-#find bar with given name
+#find bar with given license
 @app.route("/api/bar/<license>", methods=["GET"])
 def find_bar(license):
 	try:
@@ -28,9 +28,34 @@ def find_bar(license):
 	except Exception as e:
 		return make_response(str(e), 500)
 
+#find all beers this bar sells
+#@app.route("/api/menu/beer/<license>", methods=["GET"])
+
+#find all foods this bar sells
+@app.route("/api/menu/food/<license>", methods=["GET"])
+def get_food_menu(license):
+	try:
+		if license is None:
+			raise ValueError("Please specify Bar.")
+		res = database.get_food_menu(license)
+		if res is None:
+			return make_response("Bar does not sell any food.", 404)
+		return jsonify(res)
+	except ValueError as err:
+		return make_response(str(err), 400)
+	except Exception as e:
+		return make_response(str(e), 500)
+
+#find all sodas this bar sells
+#@app.route("/api/menu/soda/<license>", methods=["GET"])
+
+
+
+
 #find beers cheaper than given price
 @app.route("/api/find_beers_less_than", methods=["POST"])
 def find_beers_less_than():
 	body = json.loads(request.data)
 	max_price = body['maxPrice']
 	return jsonify(database.find_beers_less_than[max_price])
+	

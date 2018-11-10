@@ -13,7 +13,7 @@ def get_bars():
 		return [dict(row) for row in rs]
 
 
-# select from Bars given a Bar's name	
+# select from Bars given a Bar's license	
 def find_bar(license):
 	with engine.connect() as con:
 		query = sql.text("SELECT Name, License, City, State, CAST(Hour(Opening) as CHAR) as Opening, CAST(Hour(Closing) as CHAR) as Closing FROM Bars WHERE License = :license;")
@@ -33,6 +33,14 @@ def find_beers_less_than(max_price):
 		rs = con.execute(query, max_price = max_price)
 		return [dict(row) for row in rs]
 		
-# select all Beers a given Bar sells
+		
+# select all Foods a given Bar sells
+def get_food_menu(license):
+	with engine.connect() as con:
+		query = sql.text("SELECT name, price FROM (Foods JOIN (SELECT * FROM Sells where bar_license = :license) as menu on menu.consumable_name = Foods.name);")
 
-# select all Bars a given Beer is sold at
+		rs = con.execute(query, license=license)
+		res = [dict(row) for row in rs]
+		for r in res:
+			r['price'] = float(r['price'])
+		return res

@@ -7,6 +7,24 @@
                         <br>
                         Hours: {{ barDetails?.Opening}} - {{barDetails?.Closing}}
                 </p>
-                
+        </div>
+        <br><br>
+        <div class="container">
+                <h3>Food Menu</h3>
+                <p-table [value]= "barFoods">
+                        <ng-template pTemplate= "header">
+                                <tr>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                </tr>
+                        </ng-template>
+                        <ng-template pTemplate= "body" let-fooditem>
+                                <tr>
+                                        <td>{{ fooditem.name }}</td>
+                                        <td>${{ fooditem.price }}.00</td>
+                                </tr>
+                        </ng-template>
+                </p-table>
         </div>
 </div>
+
