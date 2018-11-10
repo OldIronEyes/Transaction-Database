@@ -1,7 +1,7 @@
 <div class="jumbotron jumbotron-fluid">
         <div class="container">
                 <h1 class="display-4" *ngIf="barDetails"> {{ barDetails?.Name }} ({{barLicense}})</h1>
-                <p class="bar-details" *ngIf="barDetails">
+                <p class="lead" *ngIf="barDetails">
                         <br>
                         {{barDetails?.City}}, {{barDetails?.State}}
                         <br>
@@ -10,7 +10,7 @@
         </div>
         <br><br>
         <div class="container">
-                <h3>Food Menu</h3>
+                <h2 class="text-center">Food Menu</h2>
                 <p-table [value]= "barFoods">
                         <ng-template pTemplate= "header">
                                 <tr>
