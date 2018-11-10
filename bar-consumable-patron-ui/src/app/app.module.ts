@@ -12,13 +12,19 @@ import { AppComponent } from './app.component';
 import { BarsSplashComponent } from './bars-splash/bars-splash.component';
 import { BarDetailsComponent } from './bar-details/bar-details.component';
 import { BeerDetailsComponent } from './beer-details/beer-details.component';
+import { PatronDetailsComponent } from './patron-details/patron-details.component';
+import { PatronsSplashComponent } from './patrons-splash/patrons-splash.component';
+import { BeersSplashComponent } from './beers-splash/beers-splash.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BarsSplashComponent,
     BarDetailsComponent,
-    BeerDetailsComponent
+    BeerDetailsComponent,
+    PatronDetailsComponent,
+    PatronsSplashComponent,
+    BeersSplashComponent
   ],
   imports: [
     BrowserModule,
