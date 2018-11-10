@@ -1,0 +1,12 @@
+<div class="jumbotron jumbotron-fluid">
+        <div class="container">
+                <h1 class="display-4" *ngIf="barDetails"> {{ barDetails?.Name }} ({{barLicense}})</h1>
+                <p class="bar-details" *ngIf="barDetails">
+                        <br>
+                        {{barDetails?.City}}, {{barDetails?.State}}
+                        <br>
+                        Hours: {{ barDetails?.Opening}} - {{barDetails?.Closing}}
+                </p>
+                
+        </div>
+</div>
