@@ -1,7 +1,11 @@
-#ENV stuff
+# Virtual environment stuff
 venv/
+
+# Python
 server/BarConsumablePatron/__pycache__
 server/BarConsumablePatron/config.py
+server/BarConsumablePatron/*.pyc
+
 
 
 
