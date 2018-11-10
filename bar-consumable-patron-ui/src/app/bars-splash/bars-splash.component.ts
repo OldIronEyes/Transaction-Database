@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { BarsService, Bar } from '../bars.service';
 
 @Component({
-  selector: 'app-welcome',
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  selector: 'app-bars-splash',
+  templateUrl: './bars-splash.component.html',
+  styleUrls: ['./bars-splash.component.css']
 })
-export class WelcomeComponent implements OnInit {
+export class BarsSplashComponent implements OnInit {
 
         bars : Bar[];
 

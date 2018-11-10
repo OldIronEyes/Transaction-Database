@@ -32,3 +32,7 @@ def find_beers_less_than(max_price):
 		
 		rs = con.execute(query, max_price = max_price)
 		return [dict(row) for row in rs]
+		
+# select all Beers a given Bar sells
+
+# select all Bars a given Beer is sold at
