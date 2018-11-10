@@ -17,7 +17,7 @@ def get_bars():
 @app.route("/api/bar/<license>", methods=["GET"])
 def find_bar(license):
 	try:
-		if name is None:
+		if license is None:
 			raise ValueError("Please specify Bar.")
 		bar = database.find_bar(license)
 		if bar is None:
@@ -26,7 +26,7 @@ def find_bar(license):
 	except ValueError as err:
 		return make_response(str(err), 400)
 	except Exception as e:
-		return make_response(str(err), 500)
+		return make_response(str(e), 500)
 
 #find beers cheaper than given price
 @app.route("/api/find_beers_less_than", methods=["POST"])
