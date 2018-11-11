@@ -11,6 +11,10 @@ export interface Bar{
         barName: string;
         price: number;
 }
+export interface Patron{
+        name: string;
+        amount: number;
+}
 
 
 @Injectable({
@@ -27,5 +31,8 @@ export class BeersService {
   }
   listBars(beer: string){
           return this.http.get<Bar[]>('/api/beer/' + beer + '/listbars');
+  }
+  listPatrons(beer: string){
+          return this.http.get<Patron[]>('/api/beer/' + beer + '/listpatrons');
   }
 }

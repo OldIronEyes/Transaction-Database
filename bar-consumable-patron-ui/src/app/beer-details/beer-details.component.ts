@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 
-import { BeersService, Beer, Bar } from '../beers.service';
+import { BeersService, Beer, Bar, Patron } from '../beers.service';
 
 @Component({
   selector: 'app-beer-details',
@@ -14,8 +14,8 @@ export class BeerDetailsComponent implements OnInit {
         beerName : string;
         beerDetails : Beer;
         barsList : Bar[];
+        patronsList: Patron[];
         //topBars : TopBar[];
-        //topPatrons : Patron[];
 
         constructor(private beerService: BeersService, private route: ActivatedRoute) { 
                 route.paramMap.subscribe((paramMap) => {
@@ -39,6 +39,18 @@ export class BeerDetailsComponent implements OnInit {
                                 (error: HttpResponse<any>) => {
                                         if(error.status === 404){
                                                 alert('This beer is not sold at  any bars!');
+                                        } else {
+                                                console.error(error.status + ' : ' + error.body);
+                                                alert('An error occurred!');
+                                        }
+                                }
+                        );
+                        beerService.listPatrons(this.beerName).subscribe(
+                                data => 
+                                { this.patronsList = data; },
+                                (error: HttpResponse<any>) => {
+                                        if(error.status === 404){
+                                                alert('No one bought this beer!');
                                         } else {
                                                 console.error(error.status + ' : ' + error.body);
                                                 alert('An error occurred!');

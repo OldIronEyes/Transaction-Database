@@ -57,7 +57,6 @@ def find_beer(name):
 		return dict(result)
 		
 		
-		
 # select all bars that have a given beer on its menu
 def list_bars_that_have_this_beer_on_menu(name):
 	with engine.connect() as con:
@@ -68,7 +67,17 @@ def list_bars_that_have_this_beer_on_menu(name):
 		for r in res:
 			r['price'] = float(r['price'])
 		return res
-
+		
+def list_patrons_that_buy_this_beer(name):
+	with engine.connect() as con:
+		query = sql.text('select p.name as name, sum(b2.quantity) as amount from Bought b2, Bills B, Patrons p where b2.consumable_name = :name and B.patron_phone = p.phone and b2.transid = B.transid group by(p.name);')
+		
+		rs = con.execute(query, name=name)
+		res = [dict(row) for row in rs]
+		for r in res:
+			r['amount'] = int(r['amount'])
+		return res
+		
 # select all Bar,Beer pairs where Beer's price is less than given max price
 def find_beers_less_than(max_price):
 	with engine.connect() as con:
