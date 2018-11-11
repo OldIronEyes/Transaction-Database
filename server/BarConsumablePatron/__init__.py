@@ -56,6 +56,21 @@ def get_food_menu(license):
 @app.route('/api/beer', methods=["GET"])
 def get_beers():
 	return jsonify(database.get_beers())
+	
+#find beer with given name
+@app.route("/api/beer/<name>", methods=["GET"])
+def find_beer(name):
+	try:
+		if name is None:
+			raise ValueError("Please specify beer.")
+		beer = database.find_beer(name)
+		if beer is None:
+			return make_response("No matching beer was found.", 404)
+		return jsonify(beer)
+	except ValueError as err:
+		return make_response(str(err), 400)
+	except Exception as e:
+		return make_response(str(e), 500)
 
 
 #find beers cheaper than given price

@@ -24,14 +24,6 @@ def find_bar(license):
 			return None
 		return dict(result)
 
-
-# select all Bar,Beer pairs where Beer's price is less than given max price
-def find_beers_less_than(max_price):
-	with engine.connect() as con:
-		query = sql.text("SELECT * FROM Sells WHERE price < :max_price;")
-		
-		rs = con.execute(query, max_price = max_price)
-		return [dict(row) for row in rs]
 		
 		
 # select all Foods a given Bar sells
@@ -51,5 +43,24 @@ def get_beers():
 	with engine.connect() as con:
 		rs = con.execute("SELECT name, manufacturer, type FROM Beers;")
 		
+		return [dict(row) for row in rs]
+		
+# select from Beers given beer's name
+def find_beer(name):
+	with engine.connect() as con:
+		query = sql.text("SELECT name, manufacturer, type FROM Beers WHERE name = :name;")
+		
+		rs = con.execute(query, name=name)
+		result = rs.first()
+		if result is None:
+			return None
+		return dict(result)
+
+# select all Bar,Beer pairs where Beer's price is less than given max price
+def find_beers_less_than(max_price):
+	with engine.connect() as con:
+		query = sql.text("SELECT * FROM Sells WHERE price < :max_price;")
+		
+		rs = con.execute(query, max_price = max_price)
 		return [dict(row) for row in rs]
 

@@ -17,4 +17,7 @@ export class BeersService {
   getBeers(){
           return this.http.get<Beer[]>('/api/beer');
   }
+  getBeer(beer: string){
+          return this.http.get<Beer>('/api/beer/' + beer);
+  }
 }
