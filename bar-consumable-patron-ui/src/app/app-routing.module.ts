@@ -4,6 +4,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { BarsSplashComponent } from './bars-splash/bars-splash.component';
 import { BarDetailsComponent } from './bar-details/bar-details.component';
+import { BeersSplashComponent } from './beers-splash/beers-splash.component';
+import { BeerDetailsComponent } from './beer-details/beer-details.component';
+
 
 const routes: Routes = [
         {
@@ -15,6 +18,16 @@ const routes: Routes = [
                 path: 'bars/:bar',
                 pathMatch: 'full',
                 component: BarDetailsComponent
+        },
+        {
+                path : 'beers',
+                pathMatch : 'full',
+                component: BeersSplashComponent
+        },
+        {
+                path: 'beers/:beer',
+                pathMatch: 'full',
+                component: BeerDetailsComponent
         }
 ];
 
