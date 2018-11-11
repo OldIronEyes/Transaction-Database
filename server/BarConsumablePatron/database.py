@@ -44,3 +44,12 @@ def get_food_menu(license):
 		for r in res:
 			r['price'] = float(r['price'])
 		return res
+		
+		
+# select all beers
+def get_beers():
+	with engine.connect() as con:
+		rs = con.execute("SELECT name, manufacturer, type FROM Beers;")
+		
+		return [dict(row) for row in rs]
+

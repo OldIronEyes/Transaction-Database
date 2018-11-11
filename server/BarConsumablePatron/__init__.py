@@ -52,6 +52,12 @@ def get_food_menu(license):
 
 
 
+#get all beers
+@app.route('/api/beer', methods=["GET"])
+def get_beers():
+	return jsonify(database.get_beers())
+
+
 #find beers cheaper than given price
 @app.route("/api/find_beers_less_than", methods=["POST"])
 def find_beers_less_than():
