@@ -1,12 +1,33 @@
 <div class="jumbotron jumbotron-fluid">
-        <div class="container">
+        <div class="container text-center">
                 <h1 class="display-4" *ngIf="barDetails"> {{ barDetails?.Name }} ({{barLicense}})</h1>
-                <p class="bar-details" *ngIf="barDetails">
+                <p class="lead" *ngIf="barDetails">
                         <br>
                         {{barDetails?.City}}, {{barDetails?.State}}
                         <br>
                         Hours: {{ barDetails?.Opening}} - {{barDetails?.Closing}}
                 </p>
-                
         </div>
 </div>
+<div class="container" *ngIf="barFoods">
+        <h2 class="text-center">Food Menu</h2>
+        <p-dropdown *ngIf="filterOptions" [options]="filterOptions" (onChange)="sortBy($event.value)"></p-dropdown>
+        <p-table [value]= "barFoods" sortmode="multiple" sortField="price">
+                <ng-template pTemplate= "header">
+                        <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                        </tr>
+                </ng-template>
+                <ng-template pTemplate= "body" let-fooditem>
+                        <tr>
+                                <td>{{ fooditem.name }}</td>
+                                <td>{{ fooditem.price | currency }}</td>
+                        </tr>
+                </ng-template>
+        </p-table>
+</div>
+<br><br>
+
+
+

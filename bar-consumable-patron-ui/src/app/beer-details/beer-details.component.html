@@ -1,0 +1,11 @@
+<div class="jumbotron jumbotron-fluid">
+        <div class="container">
+                <h1 class="display-4" *ngIf="beerDetails"> {{ beerName }}</h1>
+                <p class="lead" *ngIf="beerDetails">
+                        <i>Manufactured by {{beerDetails?.manufacturer}}</i>
+                        <br>
+                        Type: {{beerDetails?.type}}
+                </p>
+        </div>
+        <br><br>
+</div>

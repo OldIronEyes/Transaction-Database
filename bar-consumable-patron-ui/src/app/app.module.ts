@@ -3,23 +3,36 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { TableModule } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WelcomeComponent } from './welcome/welcome.component';
+import { BarsSplashComponent } from './bars-splash/bars-splash.component';
 import { BarDetailsComponent } from './bar-details/bar-details.component';
+import { BeerDetailsComponent } from './beer-details/beer-details.component';
+import { PatronDetailsComponent } from './patron-details/patron-details.component';
+import { PatronsSplashComponent } from './patrons-splash/patrons-splash.component';
+import { BeersSplashComponent } from './beers-splash/beers-splash.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomeComponent,
-    BarDetailsComponent
+    BarsSplashComponent,
+    BarDetailsComponent,
+    BeerDetailsComponent,
+    PatronDetailsComponent,
+    PatronsSplashComponent,
+    BeersSplashComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    TableModule
+    TableModule,
+    DropdownModule,
+    BrowserAnimationsModule
   ],
   providers: [ HttpClient ],
   bootstrap: [AppComponent]
