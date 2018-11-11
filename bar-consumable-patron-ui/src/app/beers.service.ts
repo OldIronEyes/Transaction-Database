@@ -6,6 +6,11 @@ export interface Beer {
         manufacturer: string;
         type: string;
 }
+export interface Bar{
+        license: string;
+        barName: string;
+        price: number;
+}
 
 
 @Injectable({
@@ -19,5 +24,8 @@ export class BeersService {
   }
   getBeer(beer: string){
           return this.http.get<Beer>('/api/beer/' + beer);
+  }
+  listBars(beer: string){
+          return this.http.get<Bar[]>('/api/beer/' + beer + '/listbars');
   }
 }

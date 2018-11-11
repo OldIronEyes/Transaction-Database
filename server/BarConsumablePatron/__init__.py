@@ -50,8 +50,6 @@ def get_food_menu(license):
 #@app.route("/api/menu/soda/<license>", methods=["GET"])
 
 
-
-
 #get all beers
 @app.route('/api/beer', methods=["GET"])
 def get_beers():
@@ -72,6 +70,20 @@ def find_beer(name):
 	except Exception as e:
 		return make_response(str(e), 500)
 
+#get all bars that offer this beer
+@app.route("/api/beer/<name>/listbars", methods=["GET"])
+def list_bars_that_have_this_beer_on_menu(name):
+	try:
+		if name is None:
+			raise ValueError("Please specify beer.")
+		res = database.list_bars_that_have_this_beer_on_menu(name)
+		if res is None:
+			return make_response("No bars offer this beer.", 404)
+		return jsonify(res)
+	except ValueError as err:
+		return make_response(str(err), 400)
+	except Exception as e:
+		return make_response(str(e), 500)
 
 #find beers cheaper than given price
 @app.route("/api/find_beers_less_than", methods=["POST"])
