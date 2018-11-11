@@ -19,7 +19,7 @@ export class BarDetailsComponent implements OnInit {
         sortField: string;
         sortOrder: number;
         filterOptions : SelectItem[];
-
+        
         constructor(private barService: BarsService, private route: ActivatedRoute) {
                 route.paramMap.subscribe((paramMap) => {
                         this.barLicense = paramMap.get('bar');

@@ -11,7 +11,7 @@
         <br><br>
 
                 
-        <div class="container">
+        <div class="container" *ngIf="barFoods">
                 <h2 class="text-center">Food Menu</h2>
                 <p-dropdown *ngIf="filterOptions" [options]="filterOptions" (onChange)="sortBy($event.value)"></p-dropdown>
                 <p-table [value]= "barFoods" sortmode="multiple" sortField="price">
