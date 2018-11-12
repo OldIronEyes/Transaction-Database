@@ -11,7 +11,7 @@
 
 <div class="container" *ngIf="barsList">
         <h2 class="text-center">Bars that Sold {{beerName}}</h2>
-        <p-table [value]= "barsList">
+        <p-table [value]= "barsList" [paginator]="true" rows="20">
                 <ng-template pTemplate= "header">
                         <tr>
                                 <th>Bar</th>
@@ -57,8 +57,8 @@
 <br><br>
 
 <div class="container" *ngIf="patronsList">
-        <h2 class="text-center">Patrons that Bought {{beerName}}</h2>
-        <p-table [value]= "patronsList">
+        <h2 class="text-center">Patrons who Bought {{beerName}}</h2>
+        <p-table [value]= "patronsList" [paginator]="true" rows="20">
                 <ng-template pTemplate= "header">
                         <tr>
                                 <th>Patron</th>
@@ -67,7 +67,7 @@
                 </ng-template>
                 <ng-template pTemplate= "body" let-patron>
                         <tr>
-                                <td>{{ patron.name }}</td>
+                                <td><a routerLink="/patrons/{{ patron.phone }}">{{ patron.name }} </a></td>
                                 <td>{{ patron.amount }}</td>
                         </tr>
                 </ng-template>

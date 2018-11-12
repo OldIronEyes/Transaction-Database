@@ -14,6 +14,7 @@ export interface Bar{
 }
 export interface Patron{
         name: string;
+        phone: string;
         amount: number;
 }
 
