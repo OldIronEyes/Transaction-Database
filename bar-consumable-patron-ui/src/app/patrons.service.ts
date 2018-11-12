@@ -8,6 +8,12 @@ export interface Patron {
   state: string;
 }
 
+export interface Transaction {
+  barName: string;
+  itemName: string;
+  timeStamp: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,5 +29,9 @@ export class PatronsService {
 
   getPatron(patron: string){
     return this.http.get<Patron>('/api/patrons/' + patron)
+  }
+
+  getPatronTrans(patron: string){
+    return this.http.get<Transaction[]>('/api/patrons/' + patron + 'tr')
   }
 }

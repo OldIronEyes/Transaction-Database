@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PatronsService , Patron} from '../patrons.service';
+import { PatronsService , Patron, Transaction} from '../patrons.service';
 import { HttpResponse } from '@angular/common/http';
 
 @Component({
@@ -12,15 +12,30 @@ export class PatronDetailsComponent implements OnInit {
 
   patronPhone: string;
   patronDetails: Patron;
+  transactions: Transaction[];
 
   constructor(
     private patronService: PatronsService,
     private route: ActivatedRoute
-  ) { 
-    route.paramMap.subscribe((paramMap) => {
+  ) 
+  { 
+    this.route.paramMap.subscribe((paramMap) => {
         this.patronPhone = paramMap.get('patron');
+        this.patronService.getPatronTrans(this.patronPhone).subscribe(
+          data => {
+            this.transactions = data;
+          }
+        ),
+          (error: HttpResponse<any>) => {
+            if (error.status === 404) {
+              alert('Transactions not found');
+            } else {
+              console.error(error.status + ' - ' + error.body);
+              alert('An error occurred on the server, check console');
+            }
+          }
 
-        patronService.getPatron(this.patronPhone).subscribe(
+        this.patronService.getPatron(this.patronPhone).subscribe(
           data => {
             this.patronDetails = data;
           },

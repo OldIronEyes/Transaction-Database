@@ -66,6 +66,7 @@ def find_patron(phone):
     except Exception as e:
         return make_response(str(e), 500)
 
+#get all transactions made by a given patron
 @app.route("/api/patrons/<phone>tr", methods=["GET"])
 def get_patron_trans(phone):
 	try:
