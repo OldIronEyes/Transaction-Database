@@ -23,15 +23,15 @@ export class PatronsService {
     public http: HttpClient
   ) { }
 
-  getPatrons(){
+  getPatrons() {
     return this.http.get<Patron[]>('/api/patrons');
   }
 
-  getPatron(patron: string){
-    return this.http.get<Patron>('/api/patrons/' + patron)
+  getPatron(patron: string) {
+    return this.http.get<Patron>('/api/patrons/' + patron);
   }
 
-  getPatronTrans(patron: string){
-    return this.http.get<Transaction[]>('/api/patrons/' + patron + 'tr')
+  getPatronTrans(patron: string) {
+    return this.http.get<Transaction[]>('/api/patrons/' + patron + 'tr');
   }
 }
