@@ -6,6 +6,8 @@ import { BarsSplashComponent } from './bars-splash/bars-splash.component';
 import { BarDetailsComponent } from './bar-details/bar-details.component';
 import { BeersSplashComponent } from './beers-splash/beers-splash.component';
 import { BeerDetailsComponent } from './beer-details/beer-details.component';
+import { PatronsSplashComponent } from './patrons-splash/patrons-splash.component';
+import { PatronDetailsComponent } from './patron-details/patron-details.component';
 
 
 const routes: Routes = [
@@ -28,6 +30,16 @@ const routes: Routes = [
                 path: 'beers/:beer',
                 pathMatch: 'full',
                 component: BeerDetailsComponent
+        },
+        {
+                path : 'patrons',
+                pathMatch : 'full',
+                component: PatronsSplashComponent
+        },
+        {
+                path: 'patrons/:patron',
+                pathMatch: 'full',
+                component: PatronDetailsComponent
         }
 ];
 
