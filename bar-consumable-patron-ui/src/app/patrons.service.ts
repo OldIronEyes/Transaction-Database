@@ -11,7 +11,7 @@ export interface Patron {
 @Injectable({
   providedIn: 'root'
 })
-export class PatronsService {
+export class PatronService {
 
   constructor(
     public http: HttpClient
