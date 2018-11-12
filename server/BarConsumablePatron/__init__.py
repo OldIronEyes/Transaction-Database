@@ -1,7 +1,4 @@
-from flask import Flask
-from flask import jsonify
-from flask import make_response
-from flask import request
+from flask import Flask, jsonify, make_response, request
 import json
 
 from BarConsumablePatron import database
@@ -49,8 +46,25 @@ def get_food_menu(license):
 #find all sodas this bar sells
 #@app.route("/api/menu/soda/<license>", methods=["GET"])
 
+#get all patrons
+@app.route('/api/patrons', methods=["GET"])
+def get_patrons():
+    return jsonify(database.get_patrons())
 
-
+#find patron with given phone number
+@app.route("/api/patrons/<phone>", methods=["GET"])
+def find_patron(phone):
+    try:
+        if phone is None:
+            raise ValueError("Patron not specified")
+        patron = database.find_patron(phone)
+        if patron is None:
+            return make_response("No Patron with that phone number", 404)
+        return jsonify(patron)
+    except ValueError as e:
+        return make_response(str(e), 400)
+    except Exception as e:
+        return make_response(str(e), 500)
 
 #get all beers
 @app.route('/api/beer', methods=["GET"])
@@ -71,7 +85,6 @@ def find_beer(name):
 		return make_response(str(err), 400)
 	except Exception as e:
 		return make_response(str(e), 500)
-
 
 #find beers cheaper than given price
 @app.route("/api/find_beers_less_than", methods=["POST"])

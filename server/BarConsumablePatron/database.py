@@ -24,8 +24,6 @@ def find_bar(license):
 			return None
 		return dict(result)
 
-		
-		
 # select all Foods a given Bar sells
 def get_food_menu(license):
 	with engine.connect() as con:
@@ -36,7 +34,25 @@ def get_food_menu(license):
 		for r in res:
 			r['price'] = float(r['price'])
 		return res
-		
+
+# select all patrons
+def get_patrons():
+    with engine.connect() as con:
+        rs = con.execute("SELECT name, phone, city, state FROM Patrons;")
+        return [dict(row) for row in rs]
+
+# select from Patrons given patron's phone
+def find_patron(phone):
+    with engine.connect() as con:
+        query = sql.text(
+            "SELECT name, phone, city, state FROM Patrons WHERE phone = :phone;"
+        )
+
+        rs = con.execute(query, phone=phone)
+        result = rs.first()
+        if result is None:
+            return None
+        return dict(result)
 		
 # select all beers
 def get_beers():

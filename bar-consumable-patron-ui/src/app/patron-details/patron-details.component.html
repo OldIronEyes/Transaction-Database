@@ -1,3 +1,10 @@
-<p>
-  patron-details works!
-</p>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">{{ patronDetails.name }}</h1>
+    <p class="patron-details" *ngIf="patronDetails">
+      {{ patronDetails?.city }}, {{ patronDetails?.state }}
+      <br>
+      {{ patronDetails?.phone }}
+    </p>
+  </div>
+</div>
