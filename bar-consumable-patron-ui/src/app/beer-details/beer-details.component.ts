@@ -18,8 +18,7 @@ export class BeerDetailsComponent implements OnInit {
         //topBars : TopBar[];
 
         constructor(private beerService: BeersService, private route: ActivatedRoute) { 
-                route.paramMap.subscribe(
-                        (paramMap) => {
+                route.paramMap.subscribe((paramMap) => {
                                 this.beerName = paramMap.get('beer');
                           
                                 beerService.getBeer(this.beerName).subscribe(
@@ -33,36 +32,32 @@ export class BeerDetailsComponent implements OnInit {
                                                         alert('An error occurred!');
                                                 }
                                         }
-                                }
-                        );
-                        beerService.listBars(this.beerName).subscribe(
-                                data => 
-                                { this.barsList = data; },
-                                (error: HttpResponse<any>) => {
-                                        if(error.status === 404){
-                                                alert('This beer is not sold at  any bars!');
-                                        } else {
-                                                console.error(error.status + ' : ' + error.body);
-                                                alert('An error occurred!');
+                                );
+                                beerService.listBars(this.beerName).subscribe(
+                                        data => 
+                                        { this.barsList = data; },
+                                        (error: HttpResponse<any>) => {
+                                                if(error.status === 404){
+                                                        alert('This beer is not sold at  any bars!');
+                                                } else {
+                                                        console.error(error.status + ' : ' + error.body);
+                                                        alert('An error occurred!');
+                                                }
                                         }
-                                }
-                        );
-                        beerService.listPatrons(this.beerName).subscribe(
-                                data => 
-                                { this.patronsList = data; },
-                                (error: HttpResponse<any>) => {
-                                        if(error.status === 404){
-                                                alert('No one bought this beer!');
-                                        } else {
-                                                console.error(error.status + ' : ' + error.body);
-                                                alert('An error occurred!');
+                                );
+                                beerService.listPatrons(this.beerName).subscribe(
+                                        data => 
+                                        { this.patronsList = data; },
+                                        (error: HttpResponse<any>) => {
+                                                if(error.status === 404){
+                                                        alert('No one bought this beer!');
+                                                } else {
+                                                        console.error(error.status + ' : ' + error.body);
+                                                        alert('An error occurred!');
+                                                }
                                         }
-                                }
-                        );
+                                );
                 });
-                                )
-                        }
-                )
         }
 
         ngOnInit() {
