@@ -19,22 +19,24 @@ export class BeerDetailsComponent implements OnInit {
         //beerPatrons : Patron[];
 
         constructor(private beerService: BeersService, private route: ActivatedRoute) { 
-                route.paramMap.subscribe((paramMap) => {
-                        this.beerName = paramMap.get('beer');
+                route.paramMap.subscribe(
+                        (paramMap) => {
+                                this.beerName = paramMap.get('beer');
                           
-                        beerService.getBeer(this.beerName).subscribe(
-                                data =>
-                                { this.beerDetails = data; },
-                                (error: HttpResponse<any>) => {
-                                        if(error.status === 404){
-                                                alert('Beer not found!');
-                                        } else {
-                                                console.error(error.status + ' : ' + error.body);
-                                                alert('An error occurred!');
+                                beerService.getBeer(this.beerName).subscribe(
+                                        data =>
+                                        { this.beerDetails = data; },
+                                        (error: HttpResponse<any>) => {
+                                                if(error.status === 404){
+                                                        alert('Beer not found!');
+                                                } else {
+                                                        console.error(error.status + ' : ' + error.body);
+                                                        alert('An error occurred!');
+                                                }
                                         }
-                                }
-                        );
-                }
+                                )
+                        }
+                )
         }
 
         ngOnInit() {
