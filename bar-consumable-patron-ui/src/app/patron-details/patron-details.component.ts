@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { PatronsService , Patron} from '../patrons.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-patron-details',
@@ -7,7 +10,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PatronDetailsComponent implements OnInit {
 
-  constructor() { }
+  patronPhone: string;
+  patronDetails: Patron;
+
+  constructor(
+    private patronService: PatronsService,
+    private route: ActivatedRoute
+  ) { 
+    route.paramMap.subscribe((paramMap) => {
+        this.patronPhone = paramMap.get('patron');
+
+        patronService.getPatron(this.patronPhone).subscribe(
+          data => {
+            this.patronDetails = data;
+          },
+            (error: HttpResponse<any>) => {
+              if (error.status === 404) {
+                alert('Patron not found');
+              } else {
+                console.error(error.status + ' - ' + error.body);
+                alert('An error occurred on the server, check console');
+              }
+          }
+        )
+      }
+    )
+  }
 
   ngOnInit() {
   }

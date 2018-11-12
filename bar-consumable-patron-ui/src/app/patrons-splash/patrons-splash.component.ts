@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PatronsService, Patron } from '../patrons.service';
 
 @Component({
   selector: 'app-patrons-splash',
@@ -7,9 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PatronsSplashComponent implements OnInit {
 
-  constructor() { }
+  patrons: Patron[];
+
+  constructor(
+    public patronService: PatronsService
+  ) { 
+    this.getPatrons();
+  }
 
   ngOnInit() {
   }
 
+  getPatrons(){
+    this.patronService.getPatrons().subscribe(
+      data => {
+        this.patrons = data;
+      },
+      error => {
+        alert('Could not get list of Patrons');
+      }
+    );
+  }
 }
