@@ -10,6 +10,7 @@ export interface Bar{
         license: string;
         barName: string;
         price: number;
+        amount: number;
 }
 export interface Patron{
         name: string;

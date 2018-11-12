@@ -15,7 +15,6 @@ export class BeerDetailsComponent implements OnInit {
         beerDetails : Beer;
         barsList : Bar[];
         patronsList: Patron[];
-        //topBars : TopBar[];
 
         constructor(private beerService: BeersService, private route: ActivatedRoute) { 
                 route.paramMap.subscribe((paramMap) => {

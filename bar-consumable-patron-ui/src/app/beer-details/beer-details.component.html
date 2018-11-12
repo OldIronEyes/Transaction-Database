@@ -10,18 +10,20 @@
 </div>
 
 <div class="container" *ngIf="barsList">
-        <h2 class="text-center">Bars that Offer {{beerName}}</h2>
+        <h2 class="text-center">Bars that Sold {{beerName}}</h2>
         <p-table [value]= "barsList">
                 <ng-template pTemplate= "header">
                         <tr>
                                 <th>Bar</th>
                                 <th>Price</th>
+                                <th>Amount Sold</th>
                         </tr>
                 </ng-template>
                 <ng-template pTemplate= "body" let-bar>
                         <tr>
                                 <td><a routerLink="/bars/{{ bar.license }}"> {{ bar.barName }}</a></td>
                                 <td>{{ bar.price | currency }} </td>
+                                <td>{{ bar.amount }}</td>
                         </tr>
                 </ng-template>
         </p-table>
