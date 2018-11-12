@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 
-import { BeersService, Beer } from '../beers.service';
-//import { Bar } from '../bars.service';
-//import { Patron } from '../patrons.service';
+import { BeersService, Beer, Bar, Patron } from '../beers.service';
 
 @Component({
   selector: 'app-beer-details',
@@ -15,8 +13,9 @@ export class BeerDetailsComponent implements OnInit {
 
         beerName : string;
         beerDetails : Beer;
-        //beerBars : Bar[];
-        //beerPatrons : Patron[];
+        barsList : Bar[];
+        patronsList: Patron[];
+        //topBars : TopBar[];
 
         constructor(private beerService: BeersService, private route: ActivatedRoute) { 
                 route.paramMap.subscribe(
@@ -34,6 +33,33 @@ export class BeerDetailsComponent implements OnInit {
                                                         alert('An error occurred!');
                                                 }
                                         }
+                                }
+                        );
+                        beerService.listBars(this.beerName).subscribe(
+                                data => 
+                                { this.barsList = data; },
+                                (error: HttpResponse<any>) => {
+                                        if(error.status === 404){
+                                                alert('This beer is not sold at  any bars!');
+                                        } else {
+                                                console.error(error.status + ' : ' + error.body);
+                                                alert('An error occurred!');
+                                        }
+                                }
+                        );
+                        beerService.listPatrons(this.beerName).subscribe(
+                                data => 
+                                { this.patronsList = data; },
+                                (error: HttpResponse<any>) => {
+                                        if(error.status === 404){
+                                                alert('No one bought this beer!');
+                                        } else {
+                                                console.error(error.status + ' : ' + error.body);
+                                                alert('An error occurred!');
+                                        }
+                                }
+                        );
+                });
                                 )
                         }
                 )
