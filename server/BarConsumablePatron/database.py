@@ -57,7 +57,27 @@ def find_patron(phone):
 def get_patron_trans(phone):
 	with engine.connect() as con:
 		query = sql.text(
-			"SELECT b.Name, c.consumable_name, a.timestamp From Bills a, Bars b, Bought c Where a.patron_phone = :phone and a.bar_license = b.License and a.transid = c.transid Group by a.bar_license Order by a.timestamp;"
+			"SELECT b.Name as barName, c.consumable_name as itemName, a.timestamp as timeStamp From Bills a, Bars b, Bought c Where a.patron_phone = :phone and a.bar_license = b.License and a.transid = c.transid Group by a.bar_license Order by a.timestamp;"
+		)
+
+		rs = con.execute(query, phone=phone)
+		return [dict(row) for row in rs]
+
+# select all beers (with quantities) purchased by a given patron
+def get_patron_beers(phone):
+	with engine.connect as con:
+		query = sql.text(
+			"Select C.name as Name, sum(B.quantity) as Amount From Bills A, Bought B, Beers C Where A.patron_phone = :phone And A.transid = B.transid And B.consumable_name = C.name Group by (C.name);"
+		)
+
+		rs = con.execute(query, phone=phone)
+		return [dict(row) for row in rs]
+
+# get transaction history by day of week for a given patron
+def get_patron_hist(phone):
+	with engine.connect as con:
+		query = sql.text(
+			"Select B.Name as Bar_Name, dayofweek(A.timestamp) as Day, C.price*D.quantity*1.1 as Amount_Spent From Bills A, Bars B, Sells C, Bought D Where A.patron_phone = :phone And A.transid = D.transid And A.bar_license = B.License And A.bar_license = C.bar_license And C.consumable_name = D.consumable_name Group by B.Name, dayofweek(A.timestamp);"
 		)
 
 		rs = con.execute(query, phone=phone)
@@ -88,4 +108,3 @@ def find_beers_less_than(max_price):
 		
 		rs = con.execute(query, max_price = max_price)
 		return [dict(row) for row in rs]
-

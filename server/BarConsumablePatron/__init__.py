@@ -81,6 +81,36 @@ def get_patron_trans(phone):
 	except Exception as e:
 		return make_response(str(e), 500)
 
+#select all beers (with quantities) purchased by a given patron
+@app.route("/api/patrons/<phone>br", methods=["GET"])
+def get_patron_beers(phone):
+	try:
+		if phone is None:
+			raise ValueError("Patron not specified")
+		beers = database.get_patron_beers(phone)
+		if beers is None:
+			return make_response("This Patron didn't buy any beers")
+		return jsonify(beers)
+	except ValueError as e:
+		return make_response(str(e), 400)
+	except Exception as e:
+		return make_response(str(e), 500)
+
+#get transaction history by day of week for a given patron
+@app.route("/api/patrons/<phone>hs", methods=["GET"])
+def get_patron_hist(phone):
+	try:
+		if phone is None:
+			raise ValueError("Patron not specified")
+		history = database.get_patron_hist(phone)
+		if history is None:
+			return make_response("This Patron didn't buy anything")
+		return jsonify(history)
+	except ValueError as e:
+		return make_response(str(e), 400)
+	except Exception as e:
+		return make_response(str(e), 500)
+
 #get all beers
 @app.route('/api/beer', methods=["GET"])
 def get_beers():

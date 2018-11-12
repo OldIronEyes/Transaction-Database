@@ -11,7 +11,13 @@ export interface Patron {
 export interface Transaction {
   barName: string;
   itemName: string;
+  quantity: number;
   timeStamp: string;
+}
+
+export interface Beers {
+  beerName: string;
+  quantity: number;
 }
 
 @Injectable({
@@ -33,5 +39,9 @@ export class PatronsService {
 
   getPatronTrans(patron: string) {
     return this.http.get<Transaction[]>('/api/patrons/' + patron + 'tr');
+  }
+
+  getPatronBeers(patron: string) {
+    return this.http.get<Beers[]>('/api/patrons/' + patron + 'br');
   }
 }
