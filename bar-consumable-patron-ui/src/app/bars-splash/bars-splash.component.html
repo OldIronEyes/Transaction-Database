@@ -8,7 +8,7 @@
 
 <!-- Table for getBars() -->
 <div class="container">
-        <p-table [value]= "bars">
+        <p-table [value]= "bars" [paginator]="true" [rows]="50">
                 <ng-template pTemplate= "header">
                         <tr>
                                 <th>License</th>
