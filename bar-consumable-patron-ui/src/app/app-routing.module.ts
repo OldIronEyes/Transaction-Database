@@ -8,9 +8,15 @@ import { BeersSplashComponent } from './beers-splash/beers-splash.component';
 import { BeerDetailsComponent } from './beer-details/beer-details.component';
 import { PatronsSplashComponent } from './patrons-splash/patrons-splash.component';
 import { PatronDetailsComponent } from './patron-details/patron-details.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 const routes: Routes = [
+        {
+                path : '',
+                pathMatch : 'full',
+                component: WelcomeComponent
+        },
         {
                 path : 'bars',
                 pathMatch : 'full',
