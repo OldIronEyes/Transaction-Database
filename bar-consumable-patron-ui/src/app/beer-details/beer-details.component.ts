@@ -4,6 +4,8 @@ import { HttpResponse } from '@angular/common/http';
 
 import { BeersService, Beer, Bar, Patron } from '../beers.service';
 
+declare const Highcharts: any;
+
 @Component({
   selector: 'app-beer-details',
   templateUrl: './beer-details.component.html',
@@ -34,7 +36,10 @@ export class BeerDetailsComponent implements OnInit {
                                 );
                                 beerService.listBars(this.beerName).subscribe(
                                         data => 
-                                        { this.barsList = data; },
+                                        { this.barsList = data; 
+                                        
+                                        
+                                        },
                                         (error: HttpResponse<any>) => {
                                                 if(error.status === 404){
                                                         alert('This beer is not sold at  any bars!');
@@ -60,6 +65,48 @@ export class BeerDetailsComponent implements OnInit {
         }
 
         ngOnInit() {
+        }
+        
+        renderChart(bars: string[], counts: number[]){
+                Highcharts.char('bargraph', {
+                        chart: {
+                                type: 'column'
+                        },
+                        title: {
+                                text: 'HEYYY'
+                        },
+                        xAxis: {
+                                categories: bars,
+                                title: {
+                                        text: 'Bar'
+                                }
+                        },
+                        yAxis: {
+                                min: 0,
+                                title: {
+                                        text: 'Amount Sold'
+                                },
+                                labels: {
+                                        overflow: 'justify'
+                                }
+                        },
+                        plotOptions: {
+                                bar: {
+                                        dataLabels: {
+                                                enabled: true
+                                        }
+                                }
+                        },
+                        legend: {
+                                enabled: false
+                        },
+                        credits: {
+                                enabled: false
+                        },
+                        series: {
+                                data: counts
+                        }
+                })
         }
 
 }

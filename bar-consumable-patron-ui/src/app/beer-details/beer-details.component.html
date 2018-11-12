@@ -9,6 +9,12 @@
         </div>
 </div>
 
+<div class="container">
+        <br>
+        <div id="bargraph"></div>
+</div>
+
+
 <div class="container" *ngIf="barsList">
         <h2 class="text-center">Bars that Sold {{beerName}}</h2>
         <p-table [value]= "barsList" [paginator]="true" rows="20">
