@@ -66,6 +66,20 @@ def find_patron(phone):
     except Exception as e:
         return make_response(str(e), 500)
 
+@app.route("/api/patrons/<phone>tr", methods=["GET"])
+def get_patron_trans(phone):
+	try:
+		if phone is None:
+			raise ValueError("Patron not specified")
+		transactions = database.get_patron_trans(phone)
+		if transactions is None:
+			return make_response("This Patron has no transactions")
+		return jsonify(transactions)
+	except ValueError as e:
+		return make_response(str(e), 400)
+	except Exception as e:
+		return make_response(str(e), 500)
+
 #get all beers
 @app.route('/api/beer', methods=["GET"])
 def get_beers():
