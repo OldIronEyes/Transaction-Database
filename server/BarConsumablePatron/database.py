@@ -5,13 +5,12 @@ from BarConsumablePatron import config
 
 engine = create_engine(config.database_uri)
 
-# select all bars
+# select all Bars
 def get_bars():
 	with engine.connect() as con:
 		rs = con.execute("SELECT Name, License, City, State, CAST(Hour(Opening) as CHAR) as Opening, CAST(Hour(Closing) as CHAR) as Closing FROM Bars;")
 		
 		return [dict(row) for row in rs]
-
 
 # select from Bars given a Bar's license	
 def find_bar(license):
@@ -35,7 +34,7 @@ def get_food_menu(license):
 			r['price'] = float(r['price'])
 		return res
 
-# select all patrons
+# select all Patrons
 def get_patrons():
     with engine.connect() as con:
         rs = con.execute("SELECT name, phone, city, state FROM Patrons;")
@@ -53,8 +52,18 @@ def find_patron(phone):
         if result is None:
             return None
         return dict(result)
-		
-# select all beers
+
+# select all transaction for patron
+def get_patron_trans(phone):
+	with engine.connect() as con:
+		query = sql.text(
+			"SELECT b.Name, c.consumable_name, a.timestamp From Bills a, Bars b, Bought c Where a.patron_phone = :phone and a.bar_license = b.License and a.transid = c.transid Group by a.bar_license Order by a.timestamp;"
+		)
+
+		rs = con.execute(query, phone=phone)
+		return [dict(row) for row in rs]
+
+# select all Beers
 def get_beers():
 	with engine.connect() as con:
 		rs = con.execute("SELECT name, manufacturer, type FROM Beers;")
