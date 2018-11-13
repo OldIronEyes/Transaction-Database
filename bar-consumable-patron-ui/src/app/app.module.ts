@@ -5,6 +5,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import {TabViewModule} from 'primeng/tabview';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -34,7 +35,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
     AppRoutingModule,
     TableModule,
     DropdownModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    TabViewModule
   ],
   providers: [ HttpClient ],
   bootstrap: [AppComponent]

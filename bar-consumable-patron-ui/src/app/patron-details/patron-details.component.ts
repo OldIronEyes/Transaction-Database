@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PatronsService , Patron, Transaction} from '../patrons.service';
 import { HttpResponse } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-patron-details',
   templateUrl: './patron-details.component.html',
@@ -13,6 +14,7 @@ export class PatronDetailsComponent implements OnInit {
   patronPhone: string;
   patronDetails: Patron;
   transactions: Transaction[];
+
 
   constructor(
     private patronService: PatronsService,
@@ -25,7 +27,6 @@ export class PatronDetailsComponent implements OnInit {
             this.transactions = data;
           }
         ),
-
         this.patronService.getPatron(this.patronPhone).subscribe(
           data => {
             this.patronDetails = data;
