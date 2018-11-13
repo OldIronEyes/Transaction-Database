@@ -18,7 +18,7 @@ export class BeersSplashComponent implements OnInit {
         ngOnInit() {
                 this.getBeers();
         }
-        
+
         getBeers(){
                 this.beerService.getBeers().subscribe(
                         data => {

@@ -35,10 +35,16 @@ export class BeerDetailsComponent implements OnInit {
                                         }
                                 );
                                 beerService.listBars(this.beerName).subscribe(
-                                        data => 
+                                        data =>
                                         { this.barsList = data; 
-                                        
-                                        
+                                                const ibars = [];
+                                                const iamounts = [];
+                                                
+                                                data.forEach(bar => {
+                                                        ibars.push(bar.barName);
+                                                        iamounts.push(bar.amount);
+                                                });
+                                                this.renderChart(ibars, iamounts);
                                         },
                                         (error: HttpResponse<any>) => {
                                                 if(error.status === 404){
@@ -68,12 +74,9 @@ export class BeerDetailsComponent implements OnInit {
         }
         
         renderChart(bars: string[], counts: number[]){
-                Highcharts.char('bargraph', {
+                Highcharts.chart('bargraph', {
                         chart: {
                                 type: 'column'
-                        },
-                        title: {
-                                text: 'HEYYY'
                         },
                         xAxis: {
                                 categories: bars,
@@ -103,10 +106,10 @@ export class BeerDetailsComponent implements OnInit {
                         credits: {
                                 enabled: false
                         },
-                        series: {
+                        series: [{
                                 data: counts
-                        }
-                })
+                        }]
+                });
         }
 
 }
