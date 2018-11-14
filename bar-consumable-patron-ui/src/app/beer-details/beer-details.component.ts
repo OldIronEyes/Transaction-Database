@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 
-import { BeersService, Beer, Bar, Patron, Transaction } from '../beers.service';
+import { BeersService, Beer, Bar, Patron, Transaction, Time } from '../beers.service';
 
 declare const Highcharts: any;
 
