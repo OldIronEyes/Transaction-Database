@@ -17,7 +17,11 @@ export interface Patron{
         phone: string;
         amount: number;
 }
-
+export interface Transaction{
+        transid: string;
+        time: number;
+        amount: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +40,8 @@ export class BeersService {
   }
   listPatrons(beer: string){
           return this.http.get<Patron[]>('/api/beer/' + beer + '/listpatrons');
+  }
+  listTransactions(beer: string){
+          return this.http.get<Transaction[]>('api/beer/' + beer + '/listtransactions');
   }
 }

@@ -28,23 +28,6 @@ def find_bar(license):
 #find all beers this bar sells
 #@app.route("/api/menu/beer/<license>", methods=["GET"])
 
-#find all foods this bar sells
-@app.route("/api/menu/food/<license>", methods=["GET"])
-def get_food_menu(license):
-	try:
-		if license is None:
-			raise ValueError("Please specify Bar.")
-		res = database.get_food_menu(license)
-		if res is None:
-			return make_response("Bar does not sell any food.", 404)
-		return jsonify(res)
-	except ValueError as err:
-		return make_response(str(err), 400)
-	except Exception as e:
-		return make_response(str(e), 500)
-
-#find all sodas this bar sells
-#@app.route("/api/menu/soda/<license>", methods=["GET"])
 
 #get all patrons
 @app.route('/api/patrons', methods=["GET"])
@@ -115,11 +98,18 @@ def list_patrons_that_buy_this_beer(name):
 		return make_response(str(err), 400)
 	except Exception as e:
 		return make_response(str(e), 500)
-
-#find beers cheaper than given price
-@app.route("/api/find_beers_less_than", methods=["POST"])
-def find_beers_less_than():
-	body = json.loads(request.data)
-	max_price = body['maxPrice']
-	return jsonify(database.find_beers_less_than[max_price])
+		
+@app.route("/api/beer/<name>/listtransactions", methods=["GET"])
+def list_transactions_with_this_beer(name):
+	try:
+		if name is None:
+			raise ValueError("Please specify beer.")
+		res = database.list_transactions_with_this_beer(name)
+		if res is None:
+			return make_response("THere are no transactions with this beer.", 404)
+		return jsonify(res)
+	except ValueError as err:
+		return make_response(str(err), 400)
+	except Exception as e:
+		return make_response(str(e), 500)		
 	
