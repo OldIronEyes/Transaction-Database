@@ -21,10 +21,15 @@
         <br>
 </div>
 
+<div class="container">
+        <br>
+        <div id="timeplot"></div>
+        <br>
+</div>
 
 <div class="container" *ngIf="barsList">
         <h2 class="text-center">Bars that Sold {{beerName}}</h2>
-        <p-table [value]= "barsList" [paginator]="true" rows="20">
+        <p-table [value]= "barsList" [paginator]="true" [rows]="20">
                 <ng-template pTemplate= "header">
                         <tr>
                                 <th>Bar</th>
@@ -46,7 +51,7 @@
 
 <div class="container" *ngIf="patronsList">
         <h2 class="text-center">Patrons who Bought {{beerName}}</h2>
-        <p-table [value]= "patronsList" [paginator]="true" rows="20">
+        <p-table [value]= "patronsList" [paginator]="true" [rows]="20">
                 <ng-template pTemplate= "header">
                         <tr>
                                 <th>Patron</th>
@@ -64,17 +69,19 @@
 
 <div class="container" *ngIf="transactionsList">
         <h2 class="text-center">Transactions where {{beerName}} was Bought</h2>
-        <p-table [value]= "transactionsList" [paginator]="true" rows="20">
+        <p-table [value]= "transactionsList" [paginator]="true" [rows]="20">
                 <ng-template pTemplate= "header">
                         <tr>
                                 <th>Transaction ID</th>
-                                <th>Time Purchased</th>
+                                <th>Hour Purchased</th>
+                                <th>Amount Purchased</th>
                         </tr>
                 </ng-template>
                 <ng-template pTemplate= "body" let-transaction>
                         <tr>
                                 <td>{{ transaction.transid }} </td>
                                 <td>{{ transaction.time }} </td>
+                                <td>{{ transaction. amount}}
                         </tr>
                 </ng-template>
         </p-table>
