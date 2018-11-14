@@ -167,4 +167,5 @@ export class BeerDetailsComponent implements OnInit {
                         series: [{ data: counts }]
                 });
         }
+}
 
