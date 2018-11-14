@@ -19,7 +19,8 @@ export interface Patron{
 }
 export interface Transaction{
         transid: string;
-        time: string;
+        time: number;
+        amount: number;
 }
 
 @Injectable({

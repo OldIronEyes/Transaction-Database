@@ -19,7 +19,7 @@ export class BeerDetailsComponent implements OnInit {
         patronsList: Patron[];
         transactionsList: Transaction[];
 
-        constructor(private beerService: BeersService, private route: ActivatedRoute) { 
+        constructor(private beerService: BeersService, private route: ActivatedRoute) {
                 route.paramMap.subscribe((paramMap) => {
                                 this.beerName = paramMap.get('beer');
                           
@@ -79,7 +79,14 @@ export class BeerDetailsComponent implements OnInit {
                                 );
                                 beerService.listTransactions(this.beerName).subscribe(
                                         data=>
-                                        { this.transactionsList = data; },
+                                        { this.transactionsList = data;
+                                                var intervals = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+                                                var amounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+                                                data.forEach(transaction => {
+                                                        amounts[transaction.time] = amounts[transaction.time] + transaction.amount;
+                                                });
+                                                this.renderTimePlot(intervals, amounts);
+                                        },
                                         (error: HttpResponse<any>) => {
                                                 if(error.status === 404){
                                                         alert('This beer is not in any transactions!');
@@ -88,7 +95,7 @@ export class BeerDetailsComponent implements OnInit {
                                                         alert('An error occurred!');
                                                 }
                                         }
-                                )
+                                );
                 });
         }
 
@@ -138,5 +145,26 @@ export class BeerDetailsComponent implements OnInit {
                         series: [{ data: counts }]
                 });
         }
+        
+        renderTimePlot(hours: number[], counts: number[]){
+                Highcharts.chart('timeplot', {
+                        title: { text: 'Time Distribution of Transactions' } ,
+                        chart: { type: 'column' },
+                        xAxis: { 
+                                categories: hours, 
+                                title: { text: 'Hour' } 
+                        },
+                        yAxis: {
+                                min: 0,
+                                title: { text: 'Amount Bought' },
+                                labels: { overflow: 'justify' }
+                        },
+                        plotOptions: {
+                                bar: { dataLabels: { enabled: true } }
+                        },
+                        legend: { enabled: false },
+                        credits: { enabled: false },
+                        series: [{ data: counts }]
+                });
+        }
 
-}

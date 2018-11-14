@@ -99,7 +99,7 @@ def list_patrons_that_buy_this_beer(name):
 #get all transactions that have this beer, along with the hour it was purchased
 def list_transactions_with_this_beer(name):
 	with engine.connect() as con:
-		query = sql.text('select b.transid as transid, (HOUR(b.timestamp)) as time from Bills b, Bought t where b.transid = t.transid and t.consumable_name = :name;')
+		query = sql.text('select b.transid as transid, (HOUR(b.timestamp)) as time, t.quantity as amount from Bills b, Bought t where b.transid = t.transid and t.consumable_name = :name order by time asc;')
 		rs = con.execute(query, name=name)
 		return  [dict(row) for row in rs]
 
