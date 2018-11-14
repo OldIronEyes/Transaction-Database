@@ -73,10 +73,10 @@ def find_beer(name):
 		return dict(result)
 		
 		
-# select all bars that have a given beer on its menu
+# select all bars that have a given beer on its menu, along with the total amount they have sold
 def list_bars_that_have_this_beer_on_menu(name):
 	with engine.connect() as con:
-		query = sql.text('select b1.Name as barName, s.price as price, sum(b2.quantity) as amount from Bars b1, Sells s, Bills b, Bought b2 where :name = s.consumable_name and b2.consumable_name = s.consumable_name and b1.License = s.bar_license and b1.License = b.bar_license and b.transid = b2.transid group by(barName);')
+		query = sql.text('select b1.Name as barName, s.price as price, sum(b2.quantity) as amount from Bars b1, Sells s, Bills b, Bought b2 where :name = s.consumable_name and b2.consumable_name = s.consumable_name and b1.License = s.bar_license and b1.License = b.bar_license and b.transid = b2.transid group by(barName) order by amount desc;')
 		
 		rs = con.execute(query, name=name)
 		res = [dict(row) for row in rs]
@@ -85,15 +85,24 @@ def list_bars_that_have_this_beer_on_menu(name):
 			r['amount'] = int(r['amount'])
 		return res
 		
+#get all patrons that have bought this beer, along with the total amount they bought
 def list_patrons_that_buy_this_beer(name):
 	with engine.connect() as con:
-		query = sql.text('select p.name as name, p.phone as phone, sum(b2.quantity) as amount from Bought b2, Bills B, Patrons p where b2.consumable_name = :name and B.patron_phone = p.phone and b2.transid = B.transid group by(p.name);')
+		query = sql.text('select p.name as name, p.phone as phone, sum(b2.quantity) as amount from Bought b2, Bills B, Patrons p where b2.consumable_name = :name and B.patron_phone = p.phone and b2.transid = B.transid group by(p.name) order by amount desc;')
 		
 		rs = con.execute(query, name=name)
 		res = [dict(row) for row in rs]
 		for r in res:
 			r['amount'] = int(r['amount'])
 		return res
+		
+#get all transactions that have this beer, along with the hour it was purchased
+def list_transactions_with_this_beer(name):
+	with engine.connect() as con:
+		query = sql.text('select b.transid as transid, (HOUR(b.timestamp)) as time from Bills b, Bought t where b.transid = t.transid and t.consumable_name = :name;')
+		rs = con.execute(query, name=name)
+		return  [dict(row) for row in rs]
+
 		
 # select all Bar,Beer pairs where Beer's price is less than given max price
 def find_beers_less_than(max_price):
