@@ -11,24 +11,6 @@
                 </p>
         </div>
 </div>
-<div class="container" *ngIf="barFoods">
-        <h2 class="text-center">Food Menu</h2>
-        <p-dropdown *ngIf="filterOptions" [options]="filterOptions" (onChange)="sortBy($event.value)"></p-dropdown>
-        <p-table [value]= "barFoods" sortmode="multiple" sortField="price">
-                <ng-template pTemplate= "header">
-                        <tr>
-                                <th>Name</th>
-                                <th>Price</th>
-                        </tr>
-                </ng-template>
-                <ng-template pTemplate= "body" let-fooditem>
-                        <tr>
-                                <td>{{ fooditem.name }}</td>
-                                <td>{{ fooditem.price | currency }}</td>
-                        </tr>
-                </ng-template>
-        </p-table>
-</div>
 <br><br>
 
 
