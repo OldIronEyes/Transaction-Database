@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PatronsService , Patron, Transaction} from '../patrons.service';
-import { HttpResponse } from '@angular/common/http';
+import { PatronsService , Patron, Transaction, Beer} from '../patrons.service';
+import {ChartModule} from 'primeng/chart';
 
 
 @Component({
@@ -14,6 +14,7 @@ export class PatronDetailsComponent implements OnInit {
   patronPhone: string;
   patronDetails: Patron;
   transactions: Transaction[];
+  patronBeers: Beer[];
 
 
   constructor(
@@ -31,13 +32,10 @@ export class PatronDetailsComponent implements OnInit {
           data => {
             this.patronDetails = data;
           },
-            (error: HttpResponse<any>) => {
-              if (error.status === 404) {
-                alert('Patron not found');
-              } else {
-                console.error(error.status + ' - ' + error.body);
-                alert('An error occurred on the server, check console');
-              }
+        );
+        this.patronService.getPatronBeers(this.patronPhone).subscribe(
+          data => {
+            this.patronBeers = data;
           }
         );
       }

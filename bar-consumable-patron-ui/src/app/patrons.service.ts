@@ -15,7 +15,7 @@ export interface Transaction {
   timeStamp: string;
 }
 
-export interface Beers {
+export interface Beer {
   Name: string;
   Amount: number;
 }
@@ -42,6 +42,6 @@ export class PatronsService {
   }
 
   getPatronBeers(patron: string) {
-    return this.http.get<Beers[]>('/api/patrons/' + patron + 'br');
+    return this.http.get<Beer[]>('/api/patrons/' + patron + 'br');
   }
 }
