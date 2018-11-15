@@ -91,7 +91,7 @@ def list_transactions_with_this_beer(name):
 		rs = con.execute(query, name=name)
 		return  [dict(row) for row in rs]
 
-		
+
 # select all Bar,Beer pairs where Beer's price is less than given max price
 def find_beers_less_than(max_price):
 	with engine.connect() as con:
@@ -99,4 +99,14 @@ def find_beers_less_than(max_price):
 		
 		rs = con.execute(query, max_price = max_price)
 		return [dict(row) for row in rs]
-
+		
+		
+def insert_patron():
+	with engine.connect() as con:
+		body = json.loads(request.data)
+		name = body['name']
+		phone = body['phone']
+		city = body['city']
+		state = body['state']
+		sql = "INSERT INTO Patrons(name, phone, city, state) VALUES(:name, :phone, :city, :state);"
+		rs = con.execute(query, name=name, phone=phone, city=city, state=state)
