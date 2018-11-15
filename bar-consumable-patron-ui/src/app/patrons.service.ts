@@ -16,8 +16,8 @@ export interface Transaction {
 }
 
 export interface Beers {
-  beerName: string;
-  quantity: number;
+  Name: string;
+  Amount: number;
 }
 
 @Injectable({

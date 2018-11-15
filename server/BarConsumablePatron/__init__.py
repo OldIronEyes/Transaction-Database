@@ -130,11 +130,3 @@ def find_beer(name):
 		return make_response(str(err), 400)
 	except Exception as e:
 		return make_response(str(e), 500)
-
-#find beers cheaper than given price
-@app.route("/api/find_beers_less_than", methods=["POST"])
-def find_beers_less_than():
-	body = json.loads(request.data)
-	max_price = body['maxPrice']
-	return jsonify(database.find_beers_less_than[max_price])
-	

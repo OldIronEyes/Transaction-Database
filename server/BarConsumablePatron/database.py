@@ -65,13 +65,16 @@ def get_patron_trans(phone):
 
 # select all beers (with quantities) purchased by a given patron
 def get_patron_beers(phone):
-	with engine.connect as con:
+	with engine.connect() as con:
 		query = sql.text(
-			"Select C.name as Name, sum(B.quantity) as Amount From Bills A, Bought B, Beers C Where A.patron_phone = :phone And A.transid = B.transid And B.consumable_name = C.name Group by (C.name);"
+			"Select C.name as Name, sum(B.Quantity) as Amount From Bills A, Bought B, Beers C Where A.patron_phone = :phone And A.transid = B.transid And B.consumable_name = C.name Group by C.name;"
 		)
 
 		rs = con.execute(query, phone=phone)
-		return [dict(row) for row in rs]
+		res = [dict(row) for row in rs]
+		for r in res:
+			r['Amount'] =int(r['Amount'])
+		return res
 
 # get transaction history by day of week for a given patron
 def get_patron_hist(phone):
