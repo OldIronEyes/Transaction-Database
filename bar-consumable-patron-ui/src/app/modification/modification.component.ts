@@ -7,13 +7,15 @@ import { } from '../modification.service';
   styleUrls: ['./modification.component.css']
 })
 export class ModificationComponent implements OnInit {
+        log = ' ';
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  onClick(){
+  heythere(value: string){
+          this.log = "Your query was: " + value;
           
   }
 }

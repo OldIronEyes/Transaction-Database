@@ -1,5 +1,19 @@
 <div class="jumbotron jumbotron-fluid">
         <div class="container text-center">
+                <h1 class="display-4">Welcome to the Modification page!</h1>
+                <p class="lead"><br> Please enter an SQL query to INSERT into, MODIFY, or DELETE from a table.</p>
+        </div>
+</div>
+
+<div class="text-center">
+        YOUR SQL QUERY HERE:<br>
+        <textarea #textarea></textarea><br>
+        <button (click) = "heythere(textarea.value)">Submit your request!</button><br><br>
+        <p> {{log}} </p>
+        <p> {{response}} </p>
+</div>
+<!--<div class="jumbotron jumbotron-fluid">
+        <div class="container text-center">
                 <h1 class="display-4">Welcome to the Modification Page!</h1>
                 <p class="lead"><br>To INSERT, please enter values.<br> To MODIFY, please enter values for primary key and also whatever values you want to update.<br> To DELETE, please enter values for the primary key for the row you want to delete.</p>
         </div>
@@ -73,4 +87,4 @@
         phone: <input type="text"><br>
         consumable_name: <input type="text"><br>
         <input type="submit" value="Insert"><input type="submit" value="Modify"><input type="submit" value="Delete"><br><br>
-</form>
+</form>-->

@@ -112,12 +112,3 @@ def list_transactions_with_this_beer(name):
 		return make_response(str(err), 400)
 	except Exception as e:
 		return make_response(str(e), 500)
-		
-#WIP WIP WIP WIP		
-@app.route('/insert_patron', methods=['POST'])
-def insert_patron():
-		res = database.insert_patron()
-	except Exception as e:
-		return make_response(str(e), 500)
-#WIP WIP WIP WIP
-	

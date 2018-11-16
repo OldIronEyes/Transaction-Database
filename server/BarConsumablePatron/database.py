@@ -101,12 +101,15 @@ def find_beers_less_than(max_price):
 		return [dict(row) for row in rs]
 		
 		
-def insert_patron():
-	with engine.connect() as con:
-		body = json.loads(request.data)
-		name = body['name']
-		phone = body['phone']
-		city = body['city']
-		state = body['state']
-		sql = "INSERT INTO Patrons(name, phone, city, state) VALUES(:name, :phone, :city, :state);"
-		rs = con.execute(query, name=name, phone=phone, city=city, state=state)
+"""def db_insert(insertion_query):
+    connection engine stuff
+    execute(insertion_query)
+    a = execute(constraint 1)
+    b = execute(constraint 2)
+    c = execute(constraint 3)
+    if a == 0 :
+        make_response(doesn't follow constraint 1)
+    copy for b and c
+    if a+b+c != 3:
+        some string modification stuff to replace the INSERT INTO at the beginning of the insertion_query with REMOVE FROM
+        execute(removal_query)"""
