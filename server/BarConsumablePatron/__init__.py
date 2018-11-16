@@ -112,30 +112,17 @@ def list_transactions_with_this_beer(name):
 		return make_response(str(err), 400)
 	except Exception as e:
 		return make_response(str(e), 500)
-		
-		
-		
+
 # WIP WIP WIP
 @app.route("/api/modification", methods=["POST"])
 def db_query():
-	body = json.loads(request.data)
-	jstr = body['query']
-	print(jstr) #logging for sanity check omg
-	return jsonify(body['query'])
-#	if body is None:
-#	return jsonify("what")
-#	query = body['query']
-#	return jsonify(query)
+	try:
+		body = json.loads(request.data)
+		jstr = body['query']
+		database.db_query(body['query'])
+		return jsonify('success!')
+	except Exception as e:
+		print (str(e))
+		return jsonify(str(e))
 
-"""connection engine stuff
-    execute(insertion_query)
-    a = execute(constraint 1)
-    b = execute(constraint 2)
-    c = execute(constraint 3)
-    if a == 0 :
-        make_response(doesn't follow constraint 1)
-    copy for b and c
-    if a+b+c != 3:
-        some string modification stuff to replace the INSERT INTO at the beginning of the insertion_query with REMOVE FROM
-        execute(removal_query)"""
 # WIP WIP WIP

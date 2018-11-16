@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-import { ModificationService } from '../modification.service';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-modification',
@@ -10,17 +8,14 @@ import { ModificationService } from '../modification.service';
 })
 export class ModificationComponent implements OnInit {
         log = ' ';
-  constructor(private modService: ModificationService, private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
   }
 
   heythere(value: string){
-          var input = {"query" : value};
-          var jstr = JSON.stringify(input);
-          let body = JSON.parse(jstr);
-          this.http.post('/api/modification', body).subscribe(
-                  data => this.log = data;
+          this.http.post('/api/modification', {query : value}, {responseType: "json"}).subscribe(
+                  data => { this.log = (data); },
           );
   }
 }

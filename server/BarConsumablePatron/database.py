@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy import sql
+from sqlalchemy import sql, exc
 
 from BarConsumablePatron import config
 
@@ -99,9 +99,19 @@ def find_beers_less_than(max_price):
 		
 		rs = con.execute(query, max_price = max_price)
 		return [dict(row) for row in rs]
-		
+
+
 def db_query(input):
+	print(input)
 	with engine.connect() as con:
-		query = sql.text(input)
-		
-		rs = con.execute(query)
+		try:
+			query = sql.text(input)
+			rs = con.execute(query)
+			print("nicee")
+		except exc.SQLAlchemyError as a:
+			print("a happened")
+			raise a
+		except Exception as e:
+			print("e happened")
+			raise e
+			
