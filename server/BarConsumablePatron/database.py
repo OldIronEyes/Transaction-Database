@@ -23,15 +23,16 @@ def find_bar(license):
 			return None
 		return dict(result)
 
-# select all Foods a given Bar sells
-def get_food_menu(license):
+def get_top_patrons(license):
 	with engine.connect() as con:
-		query = sql.text("SELECT name, price FROM (Foods JOIN (SELECT * FROM Sells where bar_license = :license) as menu on menu.consumable_name = Foods.name);")
+		query = sql.text(
+			"Select C.name as Name, sum(B.quantity*D.price*1.1) as Spent From Bills A, Bought B, Patrons C, Sells D Where A.bar_license = :license and A.transid = B.transid and A.patron_phone = C.phone and A.bar_license = D.bar_license and B.consumable_name = D.consumable_name Group by C.name Order by Spent desc Limit 5"
+		)
 
 		rs = con.execute(query, license=license)
 		res = [dict(row) for row in rs]
 		for r in res:
-			r['price'] = float(r['price'])
+			r['Spent'] = float(r['Spent'])
 		return res
 
 # select all Patrons

@@ -6,23 +6,13 @@ export interface Bar {
         License: string;
         City: string;
         State: string;
-        Opening: string; 
+        Opening: string;
         Closing: string;
 }
-export interface BeerItem {
-        name: string;
-        manf: string;
-        type: string;
-        price: number;
-}
-export interface FoodItem{
-        name: string;
-        price: number;
-}
-export interface SodaItem{
-        name: string;
-        flavor: string;
-        price: number;
+
+export interface Patron {
+        Name: string;
+        Spent: number;
 }
 
 @Injectable({
@@ -32,19 +22,16 @@ export interface SodaItem{
 export class BarsService {
 
   constructor(public http: HttpClient) { }
-  getBars(){
+
+  getBars() {
           return this.http.get<Bar[]>('/api/bar');
   }
-  getBar(bar: string){
+
+  getBar(bar: string) {
           return this.http.get<Bar>('/api/bar/' + bar);
   }
-  getBeerMenu(bar: string){
-          return this.http.get<BeerItem[]>('/api/menu/beer/' + bar);
-  }
-  getFoodMenu(bar: string){
-          return this.http.get<FoodItem[]>('/api/menu/food/' + bar);
-  }
-  getSodaMenu(bar: string){
-          return this.http.get<SodaItem[]>('/api/menu/soda/' + bar);
+
+  getTopPatrons(bar: string) {
+          return this.http.get<Patron[]>('/api/bar/' + bar + 'tf');
   }
 }
