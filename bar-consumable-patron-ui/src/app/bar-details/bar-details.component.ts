@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import { SelectItem } from 'primeng/components/common/selectitem';
-import { BarsService, Bar, Patron } from '../bars.service';
+import { BarsService, Item, Patron } from '../bars.service';
 
 declare const Highcharts: any;
 
@@ -33,6 +33,19 @@ export class BarDetailsComponent implements OnInit {
           });
 
           this.renderTopPatrons(patronNames, spent);
+        }
+      );
+      this.barService.getTopItems(this.barLicense).subscribe(
+        data => {
+          const itemNames = [];
+          const Amount = [];
+
+          data.forEach(item => {
+            itemNames.push(item.Item);
+            Amount.push(item.Amount);
+          });
+
+          this.renderTopItems(itemNames, Amount);
         }
       );
     }
@@ -84,4 +97,45 @@ ngOnInit() {
     });
   }
 
+  renderTopItems(itemNames: string[], Amount: number[]) {
+    Highcharts.chart('itemGraph', {
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: 'Top Five Items Sold'
+      },
+      xAxis: {
+        categories: itemNames,
+        title: {
+          text: 'Item Names'
+        }
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Amount Sold'
+        },
+        labels: {
+          overflow: 'justify'
+        }
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      credits: {
+        enabled: false
+      },
+      series: [{
+        data: Amount
+      }]
+    });
+  }
 }

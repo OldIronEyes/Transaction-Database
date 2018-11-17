@@ -35,6 +35,18 @@ def get_top_patrons(license):
 			r['Spent'] = float(r['Spent'])
 		return res
 
+def get_top_items(license):
+	with engine.connect() as con:
+		query = sql.text(
+			"Select B.consumable_name as Item, sum(B.quantity) as Amount From Bills A, Bought B Where A.bar_license = :license and A.transid = B.transid Group by Item Order by Amount desc limit 5;"
+		)
+
+		rs = con.execute(query, license=license)
+		res = [dict(row) for row in rs]
+		for r in res:
+			r['Amount'] = int(r['Amount'])
+		return res
+
 # select all Patrons
 def get_patrons():
     with engine.connect() as con:

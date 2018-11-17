@@ -15,6 +15,11 @@ export interface Patron {
         Spent: number;
 }
 
+export interface Item {
+        Item: string;
+        Amount: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,5 +38,9 @@ export class BarsService {
 
   getTopPatrons(bar: string) {
           return this.http.get<Patron[]>('/api/bar/' + bar + 'tf');
+  }
+
+  getTopItems(bar:string) {
+          return this.http.get<Item[]>('/api/bar/' + bar + 'ti');
   }
 }

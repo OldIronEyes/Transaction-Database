@@ -40,6 +40,21 @@ def top_patrons(license):
 	except Exception as e:
 		return make_response(str(e), 500)
 
+#get top 5 items at a bar
+@app.route("/api/bar/<license>ti", methods=["GET"])
+def get_top_items(license):
+	try:
+		if license is None:
+			raise ValueError("Bar not specified")
+		patrons = database.get_top_items(license)
+		if patrons is None:
+			return make_response("No Bar with the License", 404)
+		return jsonify(patrons)
+	except ValueError as e:
+		return make_response(str(e), 400)
+	except Exception as e:
+		return make_response(str(e), 500)
+
 #get all patrons
 @app.route('/api/patrons', methods=["GET"])
 def get_patrons():
