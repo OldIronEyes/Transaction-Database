@@ -15,7 +15,7 @@ export class ModificationComponent implements OnInit {
 
   heythere(value: string){
           this.http.post('/api/modification', {query : value}, {responseType: "json"}).subscribe(
-                  data => { this.log = (data); },
+                  data => { this.log = JSON.stringify(data); alert(this.log);}, 
           );
   }
 }
