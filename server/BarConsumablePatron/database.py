@@ -76,22 +76,26 @@ def get_patron_beers(phone):
 			r['Amount'] =int(r['Amount'])
 		return res
 
-# get transaction history by day of week for a given patron
+# get transaction history by week of year for a given patron
 def get_patron_hist(phone):
-	with engine.connect as con:
+	with engine.connect() as con:
 		query = sql.text(
-			"Select B.Name as Bar_Name, dayofweek(A.timestamp) as Day, C.price*D.quantity*1.1 as Amount_Spent From Bills A, Bars B, Sells C, Bought D Where A.patron_phone = :phone And A.transid = D.transid And A.bar_license = B.License And A.bar_license = C.bar_license And C.consumable_name = D.consumable_name Group by B.Name, dayofweek(A.timestamp);"
+			"Select week(A.timestamp) as weekNum, C.price*D.quantity*1.1 as spent From Bills A, Bars B, Sells C, Bought D Where A.patron_phone = :phone And A.transid = D.transid And A.bar_license = B.License And A.bar_license = C.bar_license And C.consumable_name = D.consumable_name Group by week(A.timestamp);"
 		)
 
 		rs = con.execute(query, phone=phone)
-		return [dict(row) for row in rs]
+		res = [dict(row) for row in rs]
+		for r in res:
+			r['weekNum'] = int(r['weekNum'])
+			r['spent'] = float(r['spent'])
+		return res
 
 # select all Beers
 def get_beers():
 	with engine.connect() as con:
 		rs = con.execute("SELECT name, manufacturer, type FROM Beers;")
 		
-		return [dict(row) for row in rs]
+		return jsonify([dict(row) for row in rs])
 		
 # select from Beers given beer's name
 def find_beer(name):

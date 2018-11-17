@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PatronsService , Patron, Transaction, Beer} from '../patrons.service';
+import { PatronsService , Patron, Transaction} from '../patrons.service';
 
 declare const Highcharts: any;
 
@@ -46,6 +46,19 @@ export class PatronDetailsComponent implements OnInit {
             this.renderBeersChart(beerNames, beerCount);
           }
         );
+        this.patronService.getPatronHistory(this.patronPhone).subscribe(
+          data => {
+            const weekNum = [];
+            const spent = [];
+
+            data.forEach(week => {
+              weekNum.push(week.weekNum);
+              spent.push(week.spent);
+            });
+
+            this.renderWeeksChart(weekNum, spent);
+          }
+        );
       }
     );
   }
@@ -54,7 +67,7 @@ export class PatronDetailsComponent implements OnInit {
   }
 
   renderBeersChart(beerNames: string[], beerCount: number[]) {
-    Highcharts.chart('bargraph', {
+    Highcharts.chart('beerGraph', {
       chart: {
         type: 'column'
       },
@@ -91,6 +104,48 @@ export class PatronDetailsComponent implements OnInit {
       },
       series: [{
         data: beerCount
+      }]
+    });
+  }
+
+  renderWeeksChart(weekNum: number[], spent: number[]) {
+    Highcharts.chart('spentGraph', {
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: 'Beers Ordered'
+      },
+      xAxis: {
+        categories: weekNum,
+        title: {
+          text: 'Weeks when Purchases Occurred'
+        }
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Amount Spent'
+        },
+        labels: {
+          overflow: 'justify'
+        }
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      credits: {
+        enabled: false
+      },
+      series: [{
+        data: spent
       }]
     });
   }

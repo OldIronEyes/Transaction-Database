@@ -20,6 +20,11 @@ export interface Beer {
   Amount: number;
 }
 
+export interface Week {
+  weekNum: number;
+  spent: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,5 +48,9 @@ export class PatronsService {
 
   getPatronBeers(patron: string) {
     return this.http.get<Beer[]>('/api/patrons/' + patron + 'br');
+  }
+
+  getPatronHistory(patron: string) {
+    return this.http.get<Week[]>('/api/patrons/' + patron + 'hs');
   }
 }

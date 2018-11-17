@@ -25,9 +25,6 @@ def find_bar(license):
 	except Exception as e:
 		return make_response(str(e), 500)
 
-#find all beers this bar sells
-#@app.route("/api/menu/beer/<license>", methods=["GET"])
-
 #find all foods this bar sells
 @app.route("/api/menu/food/<license>", methods=["GET"])
 def get_food_menu(license):
@@ -42,9 +39,6 @@ def get_food_menu(license):
 		return make_response(str(err), 400)
 	except Exception as e:
 		return make_response(str(e), 500)
-
-#find all sodas this bar sells
-#@app.route("/api/menu/soda/<license>", methods=["GET"])
 
 #get all patrons
 @app.route('/api/patrons', methods=["GET"])
@@ -96,7 +90,7 @@ def get_patron_beers(phone):
 	except Exception as e:
 		return make_response(str(e), 500)
 
-#get transaction history by day of week for a given patron
+#get patron's spending history by week 
 @app.route("/api/patrons/<phone>hs", methods=["GET"])
 def get_patron_hist(phone):
 	try:
