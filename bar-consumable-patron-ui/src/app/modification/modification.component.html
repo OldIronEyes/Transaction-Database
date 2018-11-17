@@ -1,0 +1,13 @@
+<div class="jumbotron jumbotron-fluid">
+        <div class="container text-center">
+                <h1 class="display-4">Welcome to the Modification page!</h1>
+                <p class="lead"><br> Please enter an SQL query to INSERT into, MODIFY, or DELETE from a table.</p>
+        </div>
+</div>
+
+<div class="text-center">
+        YOUR SQL QUERY HERE:<br>
+        <textarea #textarea></textarea><br>
+        <button (click) = "heythere(textarea.value)">Submit your request!</button><br><br>
+        <p> RESPONSE: <br> {{log}} </p>
+</div>

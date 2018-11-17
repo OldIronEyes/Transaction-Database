@@ -16,6 +16,7 @@ import { PatronDetailsComponent } from './patron-details/patron-details.componen
 import { PatronsSplashComponent } from './patrons-splash/patrons-splash.component';
 import { BeersSplashComponent } from './beers-splash/beers-splash.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { ModificationComponent } from './modification/modification.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
     PatronDetailsComponent,
     PatronsSplashComponent,
     BeersSplashComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ModificationComponent
   ],
   imports: [
     BrowserModule,

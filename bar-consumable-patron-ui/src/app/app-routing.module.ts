@@ -9,6 +9,7 @@ import { BeerDetailsComponent } from './beer-details/beer-details.component';
 import { PatronsSplashComponent } from './patrons-splash/patrons-splash.component';
 import { PatronDetailsComponent } from './patron-details/patron-details.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { ModificationComponent } from './modification/modification.component';
 
 
 const routes: Routes = [
@@ -46,6 +47,11 @@ const routes: Routes = [
                 path: 'patrons/:patron',
                 pathMatch: 'full',
                 component: PatronDetailsComponent
+        },
+        {
+                path: 'modification',
+                pathMatch: 'full',
+                component: ModificationComponent
         }
 ];
 

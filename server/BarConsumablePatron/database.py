@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy import sql
+from sqlalchemy import sql, exc
 
 from BarConsumablePatron import config
 
@@ -91,7 +91,7 @@ def list_transactions_with_this_beer(name):
 		rs = con.execute(query, name=name)
 		return  [dict(row) for row in rs]
 
-		
+
 # select all Bar,Beer pairs where Beer's price is less than given max price
 def find_beers_less_than(max_price):
 	with engine.connect() as con:
@@ -100,3 +100,15 @@ def find_beers_less_than(max_price):
 		rs = con.execute(query, max_price = max_price)
 		return [dict(row) for row in rs]
 
+
+def db_query(input):
+	print(input)
+	with engine.connect() as con:
+		try:
+			query = sql.text(input)
+			rs = con.execute(query)
+		except exc.SQLAlchemyError as a:
+			raise a
+		except Exception as e:
+			raise e
+			
