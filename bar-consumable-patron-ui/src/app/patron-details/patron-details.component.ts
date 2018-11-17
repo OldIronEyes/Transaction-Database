@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PatronsService , Patron, Transaction, Beer} from '../patrons.service';
-import {ChartModule} from 'primeng/chart';
+
+declare const Highcharts: any;
 
 
 @Component({
@@ -14,7 +15,6 @@ export class PatronDetailsComponent implements OnInit {
   patronPhone: string;
   patronDetails: Patron;
   transactions: Transaction[];
-  patronBeers: Beer[];
 
 
   constructor(
@@ -35,7 +35,15 @@ export class PatronDetailsComponent implements OnInit {
         );
         this.patronService.getPatronBeers(this.patronPhone).subscribe(
           data => {
-            this.patronBeers = data;
+            const beerNames = [];
+            const beerCount = [];
+
+            data.forEach(beer => {
+              beerNames.push(beer.Name);
+              beerCount.push(beer.Amount);
+            });
+
+            this.renderBeersChart(beerNames, beerCount);
           }
         );
       }
@@ -43,5 +51,47 @@ export class PatronDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  renderBeersChart(beerNames: string[], beerCount: number[]) {
+    Highcharts.chart('bargraph', {
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: 'Beers Ordered'
+      },
+      xAxis: {
+        categories: beerNames,
+        title: {
+          text: 'Beer Names'
+        }
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Number of Beers Ordered'
+        },
+        labels: {
+          overflow: 'justify'
+        }
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      credits: {
+        enabled: false
+      },
+      series: [{
+        data: beerCount
+      }]
+    });
   }
 }
