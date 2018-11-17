@@ -12,14 +12,14 @@ export class PatronsSplashComponent implements OnInit {
 
   constructor(
     public patronService: PatronsService
-  ) { 
+  ) {
     this.getPatrons();
   }
 
   ngOnInit() {
   }
 
-  getPatrons(){
+  getPatrons() {
     this.patronService.getPatrons().subscribe(
       data => {
         this.patrons = data;

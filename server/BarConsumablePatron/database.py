@@ -5,7 +5,7 @@ from BarConsumablePatron import config
 
 engine = create_engine(config.database_uri)
 
-# select all bars
+# select all Bars
 def get_bars():
 	with engine.connect() as con:
 		rs = con.execute("SELECT Name, License, City, State, CAST(Hour(Opening) as CHAR) as Opening, CAST(Hour(Closing) as CHAR) as Closing FROM Bars;")
@@ -23,7 +23,18 @@ def find_bar(license):
 			return None
 		return dict(result)
 
-# select all patrons
+# select all Foods a given Bar sells
+def get_food_menu(license):
+	with engine.connect() as con:
+		query = sql.text("SELECT name, price FROM (Foods JOIN (SELECT * FROM Sells where bar_license = :license) as menu on menu.consumable_name = Foods.name);")
+
+		rs = con.execute(query, license=license)
+		res = [dict(row) for row in rs]
+		for r in res:
+			r['price'] = float(r['price'])
+		return res
+
+# select all Patrons
 def get_patrons():
     with engine.connect() as con:
         rs = con.execute("SELECT name, phone, city, state FROM Patrons;")
@@ -41,13 +52,50 @@ def find_patron(phone):
         if result is None:
             return None
         return dict(result)
-		
-# select all beers
+
+# select all transaction for patron
+def get_patron_trans(phone):
+	with engine.connect() as con:
+		query = sql.text(
+			"SELECT b.Name as barName, c.consumable_name as itemName, a.timestamp as timeStamp From Bills a, Bars b, Bought c Where a.patron_phone = :phone and a.bar_license = b.License and a.transid = c.transid Group by a.bar_license, c.consumable_name Order by a.timestamp;"
+		)
+
+		rs = con.execute(query, phone=phone)
+		return [dict(row) for row in rs]
+
+# select all beers (with quantities) purchased by a given patron
+def get_patron_beers(phone):
+	with engine.connect() as con:
+		query = sql.text(
+			"Select C.name as Name, sum(B.Quantity) as Amount From Bills A, Bought B, Beers C Where A.patron_phone = :phone And A.transid = B.transid And B.consumable_name = C.name Group by C.name;"
+		)
+
+		rs = con.execute(query, phone=phone)
+		res = [dict(row) for row in rs]
+		for r in res:
+			r['Amount'] =int(r['Amount'])
+		return res
+
+# get transaction history by week of year for a given patron
+def get_patron_hist(phone):
+	with engine.connect() as con:
+		query = sql.text(
+			"Select week(A.timestamp) as weekNum, C.price*D.quantity*1.1 as spent From Bills A, Bars B, Sells C, Bought D Where A.patron_phone = :phone And A.transid = D.transid And A.bar_license = B.License And A.bar_license = C.bar_license And C.consumable_name = D.consumable_name Group by week(A.timestamp);"
+		)
+
+		rs = con.execute(query, phone=phone)
+		res = [dict(row) for row in rs]
+		for r in res:
+			r['weekNum'] = int(r['weekNum'])
+			r['spent'] = float(r['spent'])
+		return res
+
+# select all Beers
 def get_beers():
 	with engine.connect() as con:
 		rs = con.execute("SELECT name, manufacturer, type FROM Beers;")
 		
-		return [dict(row) for row in rs]
+		return ([dict(row) for row in rs])
 		
 # select from Beers given beer's name
 def find_beer(name):
@@ -59,7 +107,6 @@ def find_beer(name):
 		if result is None:
 			return None
 		return dict(result)
-		
 		
 # select all bars that have a given beer on its menu, along with the total amount they have sold
 def list_bars_that_have_this_beer_on_menu(name):
@@ -91,7 +138,6 @@ def list_transactions_with_this_beer(name):
 		rs = con.execute(query, name=name)
 		return  [dict(row) for row in rs]
 
-		
 # select all Bar,Beer pairs where Beer's price is less than given max price
 def find_beers_less_than(max_price):
 	with engine.connect() as con:
@@ -99,4 +145,3 @@ def find_beers_less_than(max_price):
 		
 		rs = con.execute(query, max_price = max_price)
 		return [dict(row) for row in rs]
-
