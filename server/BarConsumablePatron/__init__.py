@@ -25,10 +25,6 @@ def find_bar(license):
 	except Exception as e:
 		return make_response(str(e), 500)
 
-#find all beers this bar sells
-#@app.route("/api/menu/beer/<license>", methods=["GET"])
-
-
 #get all patrons
 @app.route('/api/patrons', methods=["GET"])
 def get_patrons():
@@ -99,6 +95,7 @@ def list_patrons_that_buy_this_beer(name):
 	except Exception as e:
 		return make_response(str(e), 500)
 		
+# get all the transactions that have this beer
 @app.route("/api/beer/<name>/listtransactions", methods=["GET"])
 def list_transactions_with_this_beer(name):
 	try:
@@ -113,7 +110,7 @@ def list_transactions_with_this_beer(name):
 	except Exception as e:
 		return make_response(str(e), 500)
 
-# WIP WIP WIP
+# query the DB (for modification page)
 @app.route("/api/modification", methods=["POST"])
 def db_query():
 	try:
@@ -122,6 +119,3 @@ def db_query():
 		return jsonify("success!")
 	except Exception as e:
 		return make_response(str(e), 400)
-
-
-# WIP WIP WIP
