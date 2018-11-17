@@ -107,11 +107,8 @@ def db_query(input):
 		try:
 			query = sql.text(input)
 			rs = con.execute(query)
-			print("nicee")
 		except exc.SQLAlchemyError as a:
-			print("a happened")
 			raise a
 		except Exception as e:
-			print("e happened")
 			raise e
 			

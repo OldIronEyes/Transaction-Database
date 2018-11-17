@@ -118,11 +118,10 @@ def list_transactions_with_this_beer(name):
 def db_query():
 	try:
 		body = json.loads(request.data)
-		jstr = body['query']
 		database.db_query(body['query'])
-		return jsonify('success!')
+		return jsonify("success!")
 	except Exception as e:
-		print (str(e))
-		return jsonify(str(e))
+		return make_response(str(e), 400)
+
 
 # WIP WIP WIP
