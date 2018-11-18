@@ -23,9 +23,7 @@
         <ng-template pTemplate="body" let-transaction>
             <tr>
                 <td>
-                    <a routerLink="/bars/{{ transaction?.barName }}">
-                      {{ transaction?.barName }}
-                    </a>
+                    {{ transaction?.barName }}
                 </td>
                 <td>{{ transaction?.itemName }}</td>
                 <td>{{ transaction?.timeStamp }}</td>
