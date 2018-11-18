@@ -25,18 +25,77 @@ def find_bar(license):
 	except Exception as e:
 		return make_response(str(e), 500)
 
-#find all foods this bar sells
-@app.route("/api/menu/food/<license>", methods=["GET"])
-def get_food_menu(license):
+#get top 5 patrons at a bar
+@app.route("/api/bar/<license>tf", methods=["GET"])
+def top_patrons(license):
 	try:
 		if license is None:
-			raise ValueError("Please specify Bar.")
-		res = database.get_food_menu(license)
-		if res is None:
-			return make_response("Bar does not sell any food.", 404)
-		return jsonify(res)
-	except ValueError as err:
-		return make_response(str(err), 400)
+			raise ValueError("Bar not specified")
+		patrons = database.get_top_patrons(license)
+		if patrons is None:
+			return make_response("No Bar with the License", 404)
+		return jsonify(patrons)
+	except ValueError as e:
+		return make_response(str(e), 400)
+	except Exception as e:
+		return make_response(str(e), 500)
+
+#get top 5 beers at a bar
+@app.route("/api/bar/<license>tb", methods=["GET"])
+def get_top_beers(license):
+	try:
+		if license is None:
+			raise ValueError("Bar not specified")
+		beers = database.get_top_beers(license)
+		if beers is None:
+			return make_response("This Bar didn't sell any Beers", 404)
+		return jsonify(beers)
+	except ValueError as e:
+		return make_response(str(e), 400)
+	except Exception as e:
+		return make_response(str(e), 500)
+
+#get top 5 manufacturers at a bar
+@app.route("/api/bar/<license>tm", methods=["GET"])
+def get_top_manf(license):
+	try:
+		if license is None:
+			raise ValueError("Bar not specified")
+		manf = database.get_top_manf(license)
+		if manf is None:
+			return make_response("This Bar didn't sell any Beers", 404)
+		return jsonify(manf)
+	except ValueError as e:
+		return make_response(str(e), 400)
+	except Exception as e:
+		return make_response(str(e), 500)
+
+#get amount sold by time of day
+@app.route("/api/bar/<license>sh", methods=["GET"])
+def get_hours(license):
+	try:
+		if license is None:
+			raise ValueError("Bar not specified")
+		manf = database.get_hours(license)
+		if manf is None:
+			return make_response("This bar didn't sell ANYTHING", 404)
+		return jsonify(manf)
+	except ValueError as e:
+		return make_response(str(e), 400)
+	except Exception as e:
+		return make_response(str(e), 500)
+
+@app.route("/api/bar/<license>sw", methods=["GET"])
+def get_weeks(license):
+	try:
+		if license is None:
+			raise ValueError("Bar not specified")
+		manf = database.get_weeks(license)
+		if manf is None:
+			return make_response("This bar didn't sell ANYTHING", 404)
+		return jsonify(manf)
+	except ValueError as e:
+		return make_response(str(e), 400)
 	except Exception as e:
 		return make_response(str(e), 500)
 

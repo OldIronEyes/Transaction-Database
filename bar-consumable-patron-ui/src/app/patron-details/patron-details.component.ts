@@ -16,7 +16,6 @@ export class PatronDetailsComponent implements OnInit {
   patronDetails: Patron;
   transactions: Transaction[];
 
-
   constructor(
     private patronService: PatronsService,
     private route: ActivatedRoute

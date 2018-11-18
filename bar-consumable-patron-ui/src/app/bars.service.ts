@@ -6,23 +6,28 @@ export interface Bar {
         License: string;
         City: string;
         State: string;
-        Opening: string; 
+        Opening: string;
         Closing: string;
 }
-export interface BeerItem {
-        name: string;
-        manf: string;
-        type: string;
-        price: number;
+
+export interface Patron {
+        Name: string;
+        Spent: number;
 }
-export interface FoodItem{
-        name: string;
-        price: number;
+
+export interface Beer {
+        Item: string;
+        Amount: number;
 }
-export interface SodaItem{
-        name: string;
-        flavor: string;
-        price: number;
+
+export interface Manf {
+        Manf: string;
+        Amount: number;
+}
+
+export interface SaleTime {
+        tod: number;
+        Amount: number;
 }
 
 @Injectable({
@@ -32,19 +37,32 @@ export interface SodaItem{
 export class BarsService {
 
   constructor(public http: HttpClient) { }
-  getBars(){
+
+  getBars() {
           return this.http.get<Bar[]>('/api/bar');
   }
-  getBar(bar: string){
+
+  getBar(bar: string) {
           return this.http.get<Bar>('/api/bar/' + bar);
   }
-  getBeerMenu(bar: string){
-          return this.http.get<BeerItem[]>('/api/menu/beer/' + bar);
+
+  getTopPatrons(bar: string) {
+          return this.http.get<Patron[]>('/api/bar/' + bar + 'tf');
   }
-  getFoodMenu(bar: string){
-          return this.http.get<FoodItem[]>('/api/menu/food/' + bar);
+
+  getTopBeers(bar: string) {
+          return this.http.get<Beer[]>('/api/bar/' + bar + 'tb');
   }
-  getSodaMenu(bar: string){
-          return this.http.get<SodaItem[]>('/api/menu/soda/' + bar);
+
+  getTopManf(bar: string) {
+          return this.http.get<Manf[]>('/api/bar/' + bar + 'tm');
+  }
+
+  getSaleHours(bar: string) {
+          return this.http.get<SaleTime[]>('/api/bar/' + bar + 'sh');
+  }
+
+  getSaleWeeks(bar: string) {
+          return this.http.get<SaleTime[]>('/api/bar/' + bar + 'sw');
   }
 }

@@ -23,15 +23,71 @@ def find_bar(license):
 			return None
 		return dict(result)
 
-# select all Foods a given Bar sells
-def get_food_menu(license):
+# get the top 5 patrons at a bar
+def get_top_patrons(license):
 	with engine.connect() as con:
-		query = sql.text("SELECT name, price FROM (Foods JOIN (SELECT * FROM Sells where bar_license = :license) as menu on menu.consumable_name = Foods.name);")
+		query = sql.text(
+			"Select C.name as Name, sum(B.quantity*D.price*1.1) as Spent From Bills A, Bought B, Patrons C, Sells D Where A.bar_license = :license and A.transid = B.transid and A.patron_phone = C.phone and A.bar_license = D.bar_license and B.consumable_name = D.consumable_name Group by C.name Order by Spent desc Limit 5"
+		)
 
 		rs = con.execute(query, license=license)
 		res = [dict(row) for row in rs]
 		for r in res:
-			r['price'] = float(r['price'])
+			r['Spent'] = float(r['Spent'])
+		return res
+
+# get the top 5 beers at a bar
+def get_top_beers(license):
+	with engine.connect() as con:
+		query = sql.text(
+			"Select B.consumable_name as Item, sum(B.quantity) as Amount From Bills A, Bought B, Beers C Where A.bar_license = :license and A.transid = B.transid and B.consumable_name = C.name Group by Item Order by Amount desc limit 5;"
+		)
+
+		rs = con.execute(query, license=license)
+		res = [dict(row) for row in rs]
+		for r in res:
+			r['Amount'] = int(r['Amount'])
+		return res
+
+# get the top 5 manufacturers at a bar
+def get_top_manf(license):
+	with engine.connect() as con:
+		query = sql.text(
+			"Select C.manufacturer as Manf, sum(B.quantity) as Amount From Bills A, Bought B, Beers C Where A.bar_license = :license and A.transid = B.transid and B.consumable_name = C.name Group by Manf Order by Amount desc Limit 5"
+		)
+
+		rs = con.execute(query, license=license)
+		res = [dict(row) for row in rs]
+		for r in res:
+			r['Amount'] = int(r['Amount'])
+		return res
+
+# get the hourly sales
+def get_hours(license):
+	with engine.connect() as con:
+		query = sql.text(
+			"Select Hour(A.timestamp) as tod, Sum(B.quantity) as Amount From Bills A, Bought B Where A.bar_license = :license and A.transid = B.transid Group by tod"
+		)
+
+		rs = con.execute(query, license=license)
+		res = [dict(row) for row in rs]
+		for r in res:
+			r['tod'] = int(r['tod'])
+			r['Amount'] = int(r['Amount'])
+		return res
+
+# get the yearly sales by weeks
+def get_weeks(license):
+	with engine.connect() as con:
+		query = sql.text(
+			"Select WeekofYear(A.timestamp) as tod, Sum(B.quantity) as Amount From Bills A, Bought B Where A.bar_license = :license and A.transid = B.transid Group by tod"
+		)
+
+		rs = con.execute(query, license=license)
+		res = [dict(row) for row in rs]
+		for r in res:
+			r['tod'] = int(r['tod'])
+			r['Amount'] = int(r['Amount'])
 		return res
 
 # select all Patrons
@@ -137,11 +193,3 @@ def list_transactions_with_this_beer(name):
 		query = sql.text('select b.transid as transid, (HOUR(b.timestamp)) as time, t.quantity as amount from Bills b, Bought t where b.transid = t.transid and t.consumable_name = :name order by time asc;')
 		rs = con.execute(query, name=name)
 		return  [dict(row) for row in rs]
-
-# select all Bar,Beer pairs where Beer's price is less than given max price
-def find_beers_less_than(max_price):
-	with engine.connect() as con:
-		query = sql.text("SELECT * FROM Sells WHERE price < :max_price;")
-		
-		rs = con.execute(query, max_price = max_price)
-		return [dict(row) for row in rs]
