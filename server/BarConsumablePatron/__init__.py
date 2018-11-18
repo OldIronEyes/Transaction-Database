@@ -40,16 +40,30 @@ def top_patrons(license):
 	except Exception as e:
 		return make_response(str(e), 500)
 
-#get top 5 items at a bar
-@app.route("/api/bar/<license>ti", methods=["GET"])
-def get_top_items(license):
+#get top 5 beers at a bar
+@app.route("/api/bar/<license>tb", methods=["GET"])
+def get_top_beers(license):
 	try:
 		if license is None:
 			raise ValueError("Bar not specified")
-		patrons = database.get_top_items(license)
-		if patrons is None:
-			return make_response("No Bar with the License", 404)
-		return jsonify(patrons)
+		beers = database.get_top_beers(license)
+		if beers is None:
+			return make_response("This Bar didn't sell any Beers", 404)
+		return jsonify(beers)
+	except ValueError as e:
+		return make_response(str(e), 400)
+	except Exception as e:
+		return make_response(str(e), 500)
+
+@app.route("/api/bar/<license>tm", methods=["GET"])
+def get_top_manf(license):
+	try:
+		if license is None:
+			raise ValueError("Bar not specified")
+		manf = database.get_top_manf(license)
+		if manf is None:
+			return make_response("This Bar didn't sell any Beers", 404)
+		return jsonify(manf)
 	except ValueError as e:
 		return make_response(str(e), 400)
 	except Exception as e:

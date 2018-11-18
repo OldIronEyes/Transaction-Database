@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import { SelectItem } from 'primeng/components/common/selectitem';
-import { BarsService, Item, Patron } from '../bars.service';
+import { BarsService } from '../bars.service';
 
 declare const Highcharts: any;
 
@@ -14,7 +14,6 @@ declare const Highcharts: any;
 export class BarDetailsComponent implements OnInit {
 
   barLicense: string;
-  topPatrons: Patron[];
 
   constructor(
     private barService: BarsService,
@@ -35,7 +34,7 @@ export class BarDetailsComponent implements OnInit {
           this.renderTopPatrons(patronNames, spent);
         }
       );
-      this.barService.getTopItems(this.barLicense).subscribe(
+      this.barService.getTopBeers(this.barLicense).subscribe(
         data => {
           const itemNames = [];
           const Amount = [];
@@ -45,7 +44,21 @@ export class BarDetailsComponent implements OnInit {
             Amount.push(item.Amount);
           });
 
-          this.renderTopItems(itemNames, Amount);
+          this.renderTopBeers(itemNames, Amount);
+        }
+      );
+
+      this.barService.getTopManf(this.barLicense).subscribe(
+        data => {
+          const manfNames = [];
+          const Amount = [];
+
+          data.forEach(manf => {
+            manfNames.push(manf.Manf);
+            Amount.push(manf.Amount);
+          });
+
+          this.renderTopManf(manfNames, Amount);
         }
       );
     }
@@ -97,7 +110,7 @@ ngOnInit() {
     });
   }
 
-  renderTopItems(itemNames: string[], Amount: number[]) {
+  renderTopBeers(itemNames: string[], Amount: number[]) {
     Highcharts.chart('itemGraph', {
       chart: {
         type: 'column'
@@ -109,6 +122,48 @@ ngOnInit() {
         categories: itemNames,
         title: {
           text: 'Item Names'
+        }
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Amount Sold'
+        },
+        labels: {
+          overflow: 'justify'
+        }
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      credits: {
+        enabled: false
+      },
+      series: [{
+        data: Amount
+      }]
+    });
+  }
+
+  renderTopManf(manfNames: string[], Amount: number[]) {
+    Highcharts.chart('manfGraph', {
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: 'Top Five Manufacturers'
+      },
+      xAxis: {
+        categories: manfNames,
+        title: {
+          text: 'Manufacturers'
         }
       },
       yAxis: {

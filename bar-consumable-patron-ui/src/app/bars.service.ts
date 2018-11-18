@@ -15,8 +15,13 @@ export interface Patron {
         Spent: number;
 }
 
-export interface Item {
+export interface Beer {
         Item: string;
+        Amount: number;
+}
+
+export interface Manf {
+        Manf: string;
         Amount: number;
 }
 
@@ -40,7 +45,11 @@ export class BarsService {
           return this.http.get<Patron[]>('/api/bar/' + bar + 'tf');
   }
 
-  getTopItems(bar:string) {
-          return this.http.get<Item[]>('/api/bar/' + bar + 'ti');
+  getTopBeers(bar: string) {
+          return this.http.get<Beer[]>('/api/bar/' + bar + 'tb');
+  }
+
+  getTopManf(bar: string) {
+          return this.http.get<Manf[]>('/api/bar/' + bar + 'tm');
   }
 }
