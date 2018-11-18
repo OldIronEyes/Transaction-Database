@@ -193,3 +193,15 @@ def list_transactions_with_this_beer(name):
 		query = sql.text('select b.transid as transid, (HOUR(b.timestamp)) as time, t.quantity as amount from Bills b, Bought t where b.transid = t.transid and t.consumable_name = :name order by time asc;')
 		rs = con.execute(query, name=name)
 		return  [dict(row) for row in rs]
+		
+#query the DB! with insert, update, and delete for the modification page
+def db_query(input):
+	print(input)
+	with engine.connect() as con:
+		try:
+			query = sql.text(input)
+			rs = con.execute(query)
+		except exc.SQLAlchemyError as a:
+			raise a
+		except Exception as e:
+			raise e
