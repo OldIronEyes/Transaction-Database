@@ -167,7 +167,7 @@ def find_beer(name):
 # select all bars that have a given beer on its menu, along with the total amount they have sold
 def list_bars_that_have_this_beer_on_menu(name):
 	with engine.connect() as con:
-		query = sql.text('select b1.Name as barName, s.price as price, sum(b2.quantity) as amount from Bars b1, Sells s, Bills b, Bought b2 where :name = s.consumable_name and b2.consumable_name = s.consumable_name and b1.License = s.bar_license and b1.License = b.bar_license and b.transid = b2.transid group by(barName) order by amount desc;')
+		query = sql.text('select b1.Name as barName, b1.license, s.price as price, sum(b2.quantity) as amount from Bars b1, Sells s, Bills b, Bought b2 where :name = s.consumable_name and b2.consumable_name = s.consumable_name and b1.License = s.bar_license and b1.License = b.bar_license and b.transid = b2.transid group by(barName) order by amount desc;')
 		
 		rs = con.execute(query, name=name)
 		res = [dict(row) for row in rs]
