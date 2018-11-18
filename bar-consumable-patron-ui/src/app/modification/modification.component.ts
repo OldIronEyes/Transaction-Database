@@ -14,7 +14,7 @@ export class ModificationComponent implements OnInit {
   }
 
   heythere(value: string){
-         if(value.toLowerCase().substring(0,4) == 'drop'){
+         if(value.toLowerCase().trim().substring(0,4) == 'drop'){
                  this.log = "please stop the drop";
          }else{
                   this.http.post('/api/modification', {query : value}, {responseType: "json"}).subscribe(
