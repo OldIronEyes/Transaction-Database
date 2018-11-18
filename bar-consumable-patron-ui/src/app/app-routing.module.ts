@@ -18,6 +18,16 @@ const routes: Routes = [
                 component: WelcomeComponent
         },
         {
+                path: 'static',
+                pathMatch: 'full',
+                redirectTo: 'welcome'
+        },
+        {
+                path: 'welcome',
+                pathMatch: 'full',
+                component: WelcomeComponent
+        },
+        {
                 path : 'bars',
                 pathMatch : 'full',
                 component: BarsSplashComponent
